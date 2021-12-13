@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1054635843885",
+    "project_id": "solveit-b9ab4",
+    "storage_bucket": "solveit-b9ab4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054635843885:android:790bc4cbb2d2fe81f673a4",
+        "android_client_info": {
+          "package_name": "it.sapienza.solveit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054635843885-9rrlfm97slq395m21ud3itker0f2u682.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc55w0BH6u7eIR6_duc22UALW7aXlX0OY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054635843885-9rrlfm97slq395m21ud3itker0f2u682.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
