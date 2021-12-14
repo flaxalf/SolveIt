@@ -22,7 +22,7 @@
             android:name=".ui.MenuActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.levels.LevelOneActivity"
+            android:name=".ui.levels.LevelsActivity"
             android:exported="true">
 
             <!-- Copia e incolla questa intent-filter all'interno dell'acitivity iniziale -->
