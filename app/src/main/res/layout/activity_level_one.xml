@@ -83,14 +83,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/roundHintView" />
 
-    <Button
-        android:id="@+id/btnNextFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView"
-        app:layout_constraintEnd_toEndOf="@+id/roundHintView"
-        app:layout_constraintStart_toStartOf="@+id/roundHintView" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
