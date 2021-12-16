@@ -6,6 +6,8 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.TextView
+import it.sapienza.solveit.R
 
 class LevelTwoView @JvmOverloads constructor(
     context: Context,
@@ -25,6 +27,13 @@ class LevelTwoView @JvmOverloads constructor(
 
     init {
         isClickable = true
+
+        // Dynamically change hint and level number on the activity textviews'
+        val activity = context as Activity
+        val hint = activity.findViewById<TextView>(R.id.hintTV)
+        hint.setText("It's so hot here")
+        val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
+        textLevel.setText("Level 2")
     }
 
     override fun performClick(): Boolean {
