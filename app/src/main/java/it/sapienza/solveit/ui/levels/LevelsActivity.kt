@@ -7,6 +7,6 @@ import it.sapienza.solveit.R
 class LevelsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_level_one)
+        setContentView(R.layout.activity_levels)
     }
 }

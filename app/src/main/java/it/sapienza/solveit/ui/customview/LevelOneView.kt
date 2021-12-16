@@ -1,6 +1,5 @@
 package it.sapienza.solveit.ui.customview
 
-import android.R.attr
 import android.app.Activity
 import android.content.Context
 import android.graphics.*
@@ -12,6 +11,15 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.graphics.Bitmap
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import it.sapienza.solveit.R
+import it.sapienza.solveit.ui.levels.CustomDialogFragment
+import it.sapienza.solveit.ui.levels.LevelOneFragment
+import java.lang.ClassCastException
 
 
 class LevelOneView @JvmOverloads constructor(
@@ -20,6 +28,8 @@ class LevelOneView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), SensorEventListener {
 
+    private lateinit var buttonIV: ImageView
+    private val winnerDialog = CustomDialogFragment()
     private lateinit var sensorManager: SensorManager
     private var mRotation: Sensor? = null
     private lateinit var image: Bitmap
@@ -32,19 +42,36 @@ class LevelOneView @JvmOverloads constructor(
     }
     private var counter = 0
     private var rotating = false
+    private lateinit var fragmentManager: FragmentManager
+    private var parentFrag: LevelOneFragment?
 
     init {
-        isClickable = false
+        val activity = context as Activity
+
+        // Dynamically change hint and level number on the activity textviews'
+        var hint = activity.findViewById<TextView>(R.id.hintTV)
+        hint.setText("Rounding rock? Maybe rotating..")
+        var textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
+        textLevel.setText("Level 1")
+
+        try {
+            fragmentManager = (context as FragmentActivity).supportFragmentManager
+        } catch (e: ClassCastException) {
+            Log.e("Error fragment manager", "Can't get fragment manager")
+        }
+        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as LevelOneFragment?
 
         // SENSOR
-        sensorManager = (context as? Activity)?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensorManager =
+            (context as? Activity)?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mRotation = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
 
         // Need to register the listener when the fragment is on foregroung, so init of the view
         mRotation.also { grav ->
-            sensorManager.registerListener(this,grav,SensorManager.SENSOR_DELAY_UI)
+            sensorManager.registerListener(this, grav, SensorManager.SENSOR_DELAY_UI)
         }
     }
+
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -91,8 +118,11 @@ class LevelOneView @JvmOverloads constructor(
         if (zValue != null) {
             //if (Math.abs(zValue) < 0.2 && !rotating) {
             if (Math.abs(zValue) < 0.2 ) {
-                rotating = true     // TODO: need to send this info to the fragment that activate the dialog button
+                rotating = true
                 counter+=2
+
+                // Activating the button on the fragment for the win dialog
+                parentFrag!!.view?.let { parentFrag!!.activateButton(it) }
 
                 // TODO: Need to unregister the listener when the animation is executed, JUST uncomment
                 //sensorManager.unregisterListener(this)
