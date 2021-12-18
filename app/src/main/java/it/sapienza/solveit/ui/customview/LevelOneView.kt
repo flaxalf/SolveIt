@@ -19,6 +19,7 @@ import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.levels.LevelOneFragment
 import java.lang.ClassCastException
+import java.lang.Thread.sleep
 
 
 class LevelOneView @JvmOverloads constructor(
@@ -27,11 +28,12 @@ class LevelOneView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), SensorEventListener {
 
+    private var rotatingImage: Bitmap
     private lateinit var buttonIV: ImageView
     private val winnerDialog = CustomDialogFragment()
-    private lateinit var sensorManager: SensorManager
+    private var sensorManager: SensorManager
     private var mRotation: Sensor? = null
-    private lateinit var image: Bitmap
+    private var image: Bitmap
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         // Paint styles used for rendering are initialized here.
         style = Paint.Style.FILL
@@ -53,6 +55,7 @@ class LevelOneView @JvmOverloads constructor(
         var textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
         textLevel.setText("Level 1")
 
+        // Retrieve parent fragment
         try {
             fragmentManager = (context as FragmentActivity).supportFragmentManager
         } catch (e: ClassCastException) {
@@ -69,8 +72,12 @@ class LevelOneView @JvmOverloads constructor(
         mRotation.also { grav ->
             sensorManager.registerListener(this, grav, SensorManager.SENSOR_DELAY_UI)
         }
-    }
 
+        // Define the initial moving bitmap
+        image = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("rock_1920.png"))
+        image = Bitmap.createScaledBitmap(image, (0.3 * image.width).toInt(), (0.3 * image.height).toInt(),false)
+        rotatingImage = image
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -79,22 +86,17 @@ class LevelOneView @JvmOverloads constructor(
     }
 
     fun drawScene(canvas: Canvas) {
-        var oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("rock_1920.png"))
-        image = Bitmap.createScaledBitmap(oldImage, (0.5f * width).toInt(), (0.2 * height).toInt(),false)
-        if (oldImage != image) {
-            oldImage.recycle();
-        }
-
         var xCenter = (width-image.width) / 2f
         var yCenter = (height-image.height) / 2f
 
-        // create a matrix for the manipulation
-        val matrix = Matrix()
-        matrix.postRotate(-counter.toFloat())
-        val rotatedBitmap = Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, false)
+        Log.d("image", "width: "+rotatingImage.width)
 
-        // This is the rock that must move TODO: sistemare la rotazione!! problema con baricentro della roccia?
-        canvas.drawBitmap(rotatedBitmap,-counter*0.5f + (width-image.width)/2f,-counter*0.2f + (height-image.height)/2f,null)
+        // create a matrix for the manipulation TODO: sistemare la rotazione!!
+        val matrix = Matrix()
+        matrix.setRotate(-counter.toFloat())
+        rotatingImage = Bitmap.createBitmap(rotatingImage, 0, 0, rotatingImage.width, rotatingImage.height, matrix, true)
+
+        canvas.drawBitmap(rotatingImage,-counter*5 +(width-rotatingImage.width)/2f,(height-rotatingImage.height)/2f,null)
 
         // Creating other rocks in different positions
         canvas.drawBitmap(image,(width-image.width*2f), (height-image.height*2f),null)
@@ -115,16 +117,16 @@ class LevelOneView @JvmOverloads constructor(
          */
         val zValue = event?.values?.get(2)
         if (zValue != null) {
-            //if (Math.abs(zValue) < 0.2 && !rotating) {
-            if (Math.abs(zValue) < 0.2 ) {
-                rotating = true
-                counter+=2
+            if (Math.abs(zValue) < 0.2 && !rotating) {
+                if (counter >= 100) {
+                    rotating = true
+                    // Unregister the listener when the animation is executed
+                    sensorManager.unregisterListener(this)
+                }
+                counter += 1
 
                 // Activating the button on the fragment for the win dialog
                 parentFrag!!.view?.let { parentFrag!!.activateButton(it) }
-
-                // TODO: Need to unregister the listener when the animation is executed, JUST uncomment
-                //sensorManager.unregisterListener(this)
 
                 // Redraw scene
                 invalidate()
