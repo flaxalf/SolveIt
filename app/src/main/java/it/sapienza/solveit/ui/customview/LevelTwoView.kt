@@ -12,8 +12,13 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
+import it.sapienza.solveit.ui.levels.LevelOneFragment
+import it.sapienza.solveit.ui.levels.LevelTwoFragment
+import java.lang.ClassCastException
 
 class LevelTwoView @JvmOverloads constructor(
     context: Context,
@@ -21,10 +26,11 @@ class LevelTwoView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), SensorEventListener {
     private var isMorning: Boolean = true
-    private lateinit var buttonIV: ImageView
-    private val winnerDialog = CustomDialogFragment()
     private var sensorManager: SensorManager
     private var mLight: Sensor? = null
+
+    private lateinit var fragmentManager: FragmentManager
+    private var parentFrag: LevelTwoFragment?
 
 
     private lateinit var image: Bitmap
@@ -38,7 +44,7 @@ class LevelTwoView @JvmOverloads constructor(
     private var counter = 0
 
     init {
-        isClickable = true
+        isClickable = false
 
         // Dynamically change hint and level number on the activity textviews'
         val activity = context as Activity
@@ -46,6 +52,14 @@ class LevelTwoView @JvmOverloads constructor(
         hint.setText("It's time to sleep")
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
         textLevel.setText("Level 2")
+
+        // Retrieve parent fragment
+        try {
+            fragmentManager = (context as FragmentActivity).supportFragmentManager
+        } catch (e: ClassCastException) {
+            Log.e("Error fragment manager", "Can't get fragment manager")
+        }
+        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as LevelTwoFragment?
 
         // SENSOR
         sensorManager =
@@ -55,6 +69,7 @@ class LevelTwoView @JvmOverloads constructor(
             sensorManager.registerListener(this, grav, SensorManager.SENSOR_DELAY_UI)}
     }
 
+    /*
     override fun performClick(): Boolean {
         // Give default click listeners priority and perform accessibility/autofill events.
         if (super.performClick()) return true
@@ -64,6 +79,7 @@ class LevelTwoView @JvmOverloads constructor(
         invalidate()
         return true
     }
+    */
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -80,6 +96,8 @@ class LevelTwoView @JvmOverloads constructor(
             if (oldImage!= image){
                 oldImage.recycle();
             }
+            // Activating the button on the fragment for the win dialog
+            parentFrag!!.view?.let { parentFrag!!.activateButton(it) }
         }
 
         Log.d("canvas", "redrawing")

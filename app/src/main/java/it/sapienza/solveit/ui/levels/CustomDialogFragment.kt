@@ -31,7 +31,7 @@ class CustomDialogFragment: DialogFragment() {
             val levelFragment: Fragment = when (info_level) {
                 0 -> LevelOneFragment()
                 1 -> LevelTwoFragment()
-                //2 -> LevelThreeFragment()
+                2 -> LevelThreeFragment()
                 //3 -> LevelFourFragment()
                 //4 -> LevelFiveFragment()
                 else -> LevelOneFragment()

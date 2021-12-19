@@ -34,7 +34,6 @@ class LevelOneFragment : Fragment(), View.OnClickListener {
         buttonIV = v.findViewById(R.id.buttonIV)
         buttonIV.isClickable = true
         buttonIV.setOnClickListener(this)
-        Log.d("active", "activating")
     }
 
     override fun onClick(v: View) {
