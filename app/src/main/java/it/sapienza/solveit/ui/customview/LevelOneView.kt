@@ -85,12 +85,7 @@ class LevelOneView @JvmOverloads constructor(
     fun drawScene(canvas: Canvas) {
         var rotatingImage : Bitmap = image
 
-        var xCenter = (width-image.width) / 2f
-        var yCenter = (height-image.height) / 2f
-
-        Log.d("image", "width: "+rotatingImage.width)
-
-        // create a matrix for the manipulation TODO: sistemare la rotazione!!
+        // create a matrix for the manipulation
         val matrix = Matrix()
         matrix.setRotate(-counter.toFloat())
         rotatingImage = Bitmap.createBitmap(rotatingImage, 0, 0, rotatingImage.width, rotatingImage.height, matrix, true)
@@ -117,7 +112,7 @@ class LevelOneView @JvmOverloads constructor(
         val zValue = event?.values?.get(2)
         if (zValue != null) {
             if (Math.abs(zValue) < 0.2 && !rotating) {
-                if (counter >= 100) {
+                if (counter >= 80) {
                     rotating = true
                     // Unregister the listener when the animation is executed
                     sensorManager.unregisterListener(this)

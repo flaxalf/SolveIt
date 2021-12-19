@@ -9,7 +9,6 @@ import it.sapienza.solveit.R
 
 
 class LevelTwoFragment : Fragment() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

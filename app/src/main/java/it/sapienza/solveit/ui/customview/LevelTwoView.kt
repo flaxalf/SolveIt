@@ -3,17 +3,29 @@ package it.sapienza.solveit.ui.customview
 import android.app.Activity
 import android.content.Context
 import android.graphics.*
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import it.sapienza.solveit.R
+import it.sapienza.solveit.ui.levels.CustomDialogFragment
 
 class LevelTwoView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+) : View(context, attrs, defStyleAttr), SensorEventListener {
+    private var isMorning: Boolean = true
+    private lateinit var buttonIV: ImageView
+    private val winnerDialog = CustomDialogFragment()
+    private var sensorManager: SensorManager
+    private var mLight: Sensor? = null
+
 
     private lateinit var image: Bitmap
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -31,9 +43,16 @@ class LevelTwoView @JvmOverloads constructor(
         // Dynamically change hint and level number on the activity textviews'
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.setText("It's so hot here")
+        hint.setText("It's time to sleep")
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
         textLevel.setText("Level 2")
+
+        // SENSOR
+        sensorManager =
+            (context as? Activity)?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
+        mLight.also { grav ->
+            sensorManager.registerListener(this, grav, SensorManager.SENSOR_DELAY_UI)}
     }
 
     override fun performClick(): Boolean {
@@ -49,15 +68,37 @@ class LevelTwoView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        var oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("sun_removebg.png"))
-        image = Bitmap.createScaledBitmap(oldImage, (0.7f*width).toInt(),(0.5*height).toInt(),false)
-        if (oldImage!= image){
-            oldImage.recycle();
+        if (isMorning) {
+            var oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("sun_removebg.png"))
+            image = Bitmap.createScaledBitmap(oldImage, (0.7f*width).toInt(),(0.5*height).toInt(),false)
+            if (oldImage!= image){
+                oldImage.recycle();
+            }
+        } else {
+            var oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("moon_removebg.png"))
+            image = Bitmap.createScaledBitmap(oldImage, (0.7f*width).toInt(),(0.5*height).toInt(),false)
+            if (oldImage!= image){
+                oldImage.recycle();
+            }
         }
 
         Log.d("canvas", "redrawing")
-        //canvas.drawCircle(0f, 0f, 300f, paint)
         canvas.drawBitmap(image,counter*10+0f,0f,null)
 
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        // Just look when light is on or off
+        if(event.sensor.type == Sensor.TYPE_LIGHT)
+            if (event.values[0] <= 3.0f) {
+                // Light is off, sun sleeps
+                isMorning = false
+                invalidate()
+            }
+
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+        // nothing
     }
 }
