@@ -19,6 +19,7 @@ import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.levels.LevelOneFragment
 import java.lang.ClassCastException
+import kotlin.math.abs
 
 
 class LevelOneView @JvmOverloads constructor(
@@ -104,12 +105,51 @@ class LevelOneView @JvmOverloads constructor(
         //Log.d("Sens accuracy", "Accuracy"+p1.toString())
     }
 
-    override fun onSensorChanged(event: SensorEvent?) {
+    private fun determineOrientation(rotationMatrix: FloatArray) : FloatArray{
+        val orientationValues = FloatArray(3)
+        SensorManager.getOrientation(rotationMatrix, orientationValues)
+        return orientationValues
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
         /*  values[0]: x*sin(θ/2)   values[1]: y*sin(θ/2)
             values[2]: z*sin(θ/2)   values[3]: cos(θ/2)
             values[4]: estimated heading Accuracy (in radians) (-1 if unavailable)
          */
-        val zValue = event?.values?.get(2)
+
+        var rotationMatrix  = FloatArray(16)
+        val orientationValues = FloatArray(3)
+
+        if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+            SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
+            SensorManager.getOrientation(rotationMatrix, orientationValues)
+
+            val azimuth = Math.toDegrees(orientationValues[0].toDouble())
+            val pitch = Math.toDegrees(orientationValues[1].toDouble())
+            val roll = Math.toDegrees(orientationValues[2].toDouble())
+            val zValue = event.values.get(2)
+
+            Log.d("angles", "roll: "+roll+" , pitch: "+pitch+" , zValue: "+zValue)
+
+            if (pitch > -30 && pitch < 0 && Math.abs(zValue) < 0.2 && Math.abs(roll) < 100 && !rotating) {
+                if (counter >= 50) {
+                    rotating = true
+                    // Unregister the listener when the animation is executed
+                    sensorManager.unregisterListener(this)
+                }
+                counter += 1
+
+                // Activating the button on the fragment for the win dialog
+                parentFrag!!.view?.let { parentFrag!!.activateButton(it) }
+
+                // Redraw scene
+                invalidate()
+            }
+        }
+
+
+
+        /*val zValue = event?.values?.get(2)
         if (zValue != null) {
             if (Math.abs(zValue) < 0.2 && !rotating) {
                 if (counter >= 80) {
@@ -126,5 +166,7 @@ class LevelOneView @JvmOverloads constructor(
                 invalidate()
             }
         }
+
+         */
     }
 }
