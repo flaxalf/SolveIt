@@ -131,8 +131,8 @@ class LevelOneView @JvmOverloads constructor(
 
             Log.d("angles", "roll: "+roll+" , pitch: "+pitch+" , zValue: "+zValue)
 
-            if (pitch > -30 && pitch < 0 && Math.abs(zValue) < 0.2 && Math.abs(roll) < 100 && !rotating) {
-                if (counter >= 50) {
+            if (pitch > -50 && pitch < 0 && abs(zValue) > 0.2  && roll < 0 && !rotating) {
+                if (counter >= 80) {
                     rotating = true
                     // Unregister the listener when the animation is executed
                     sensorManager.unregisterListener(this)
