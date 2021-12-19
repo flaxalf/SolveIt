@@ -19,7 +19,6 @@ import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.levels.LevelOneFragment
 import java.lang.ClassCastException
-import java.lang.Thread.sleep
 
 
 class LevelOneView @JvmOverloads constructor(
@@ -28,7 +27,6 @@ class LevelOneView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), SensorEventListener {
 
-    private var rotatingImage: Bitmap
     private lateinit var buttonIV: ImageView
     private val winnerDialog = CustomDialogFragment()
     private var sensorManager: SensorManager
@@ -76,7 +74,6 @@ class LevelOneView @JvmOverloads constructor(
         // Define the initial moving bitmap
         image = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("rock_1920.png"))
         image = Bitmap.createScaledBitmap(image, (0.3 * image.width).toInt(), (0.3 * image.height).toInt(),false)
-        rotatingImage = image
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -86,6 +83,8 @@ class LevelOneView @JvmOverloads constructor(
     }
 
     fun drawScene(canvas: Canvas) {
+        var rotatingImage : Bitmap = image
+
         var xCenter = (width-image.width) / 2f
         var yCenter = (height-image.height) / 2f
 
