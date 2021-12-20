@@ -10,13 +10,10 @@ import android.hardware.SensorManager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.CustomDialogFragment
-import it.sapienza.solveit.ui.levels.LevelOneFragment
 import it.sapienza.solveit.ui.levels.LevelTwoFragment
 import java.lang.ClassCastException
 
@@ -27,6 +24,7 @@ class LevelTwoView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr), SensorEventListener {
     private var isMorning: Boolean = true
     private var isNear: Boolean = false
+    private var isDark: Boolean = false
     private var sensorManager: SensorManager
     private var mLight: Sensor? = null
     private var mProximity: Sensor? = null
@@ -36,13 +34,6 @@ class LevelTwoView @JvmOverloads constructor(
 
 
     private lateinit var image: Bitmap
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        // Paint styles used for rendering are initialized here.
-        style = Paint.Style.FILL
-        textAlign = Paint.Align.CENTER
-        textSize = 55.0f
-        typeface = Typeface.create("", Typeface.BOLD)
-    }
     private var counter = 0
 
     init {
@@ -90,39 +81,43 @@ class LevelTwoView @JvmOverloads constructor(
         super.onDraw(canvas)
 
         if (isMorning) {
-            var oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("sun_removebg.png"))
+            val oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("sun_removebg.png"))
             image = Bitmap.createScaledBitmap(oldImage, (0.7f*width).toInt(),(0.5*height).toInt(),false)
             if (oldImage!= image){
-                oldImage.recycle();
+                oldImage.recycle()
             }
         } else {
-            var oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("moon_removebg.png"))
+            val oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("moon_removebg.png"))
             image = Bitmap.createScaledBitmap(oldImage, (0.7f*width).toInt(),(0.5*height).toInt(),false)
             if (oldImage!= image){
-                oldImage.recycle();
+                oldImage.recycle()
             }
             sensorManager.unregisterListener(this)
             // Activating the button on the fragment for the win dialog
             parentFrag!!.view?.let { parentFrag!!.activateButton(it) }
         }
 
-        Log.d("canvas", "redrawing")
         canvas.drawBitmap(image,counter*10+0f,0f,null)
 
     }
 
     override fun onSensorChanged(event: SensorEvent) {
         // Just look when light is on or off
-        if(event.sensor.type == Sensor.TYPE_LIGHT && isNear) {
+        if(event.sensor.type == Sensor.TYPE_LIGHT) {
             if (event.values[0] <= 3.0f) {
                 // Light is off, sun sleeps
-                isMorning = false
-                invalidate()
+                isDark = true
+
             }
         } else if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
             if (event.values[0] <= 4.0f) {
                 isNear = true
             }
+        }
+
+        isMorning = !(isDark && isNear)
+        if(!isMorning) {
+            invalidate()
         }
     }
 
