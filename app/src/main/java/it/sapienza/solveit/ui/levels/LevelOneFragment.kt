@@ -20,7 +20,7 @@ class LevelOneFragment : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {
         // The fragment contains a custom view that handle sensor and canvas drawing
         val view: View = inflater.inflate(R.layout.fragment_level_one, container, false)
 
@@ -40,7 +40,7 @@ class LevelOneFragment : Fragment(), View.OnClickListener {
         val bundle = Bundle()
         bundle.putInt("Level", 1) // Say to the dialog that fragment 1 call it
 
-        winnerDialog.setArguments(bundle)
+        winnerDialog.arguments = bundle
         when (v.id) {
             R.id.buttonIV -> {
                 winnerDialog.show(parentFragmentManager, "Next level")

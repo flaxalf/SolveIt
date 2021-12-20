@@ -32,7 +32,7 @@ class CustomDialogFragment: DialogFragment() {
                 0 -> LevelOneFragment()
                 1 -> LevelTwoFragment()
                 2 -> LevelThreeFragment()
-                //3 -> LevelFourFragment()
+                3 -> LevelFourFragment()
                 //4 -> LevelFiveFragment()
                 else -> LevelOneFragment()
             }

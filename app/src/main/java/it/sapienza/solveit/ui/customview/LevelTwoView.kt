@@ -42,9 +42,9 @@ class LevelTwoView @JvmOverloads constructor(
         // Dynamically change hint and level number on the activity textviews'
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.setText("It's time to sleep")
+        hint.text = "It's time to sleep"
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
-        textLevel.setText("Level 2")
+        textLevel.text = "Level 2"
 
         // Retrieve parent fragment
         try {

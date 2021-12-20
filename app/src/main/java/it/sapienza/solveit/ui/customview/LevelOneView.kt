@@ -122,7 +122,7 @@ class LevelOneView @JvmOverloads constructor(
             val roll = Math.toDegrees(orientationValues[2].toDouble())
             val zValue = event.values[2]
 
-            Log.d("angles", "roll: $roll , pitch: $pitch , zValue: $zValue")
+            //Log.d("angles", "roll: $roll , pitch: $pitch , zValue: $zValue")
 
             if (pitch > -50 && pitch < -3 && abs(zValue) > 0.01  && roll < 0 && !completed) {
                 counter += 1
