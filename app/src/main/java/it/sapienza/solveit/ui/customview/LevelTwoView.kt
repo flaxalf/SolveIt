@@ -26,8 +26,10 @@ class LevelTwoView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), SensorEventListener {
     private var isMorning: Boolean = true
+    private var isNear: Boolean = false
     private var sensorManager: SensorManager
     private var mLight: Sensor? = null
+    private var mProximity: Sensor? = null
 
     private lateinit var fragmentManager: FragmentManager
     private var parentFrag: LevelTwoFragment?
@@ -65,7 +67,10 @@ class LevelTwoView @JvmOverloads constructor(
         sensorManager =
             (context as? Activity)?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
+        mProximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
         mLight.also { grav ->
+            sensorManager.registerListener(this, grav, SensorManager.SENSOR_DELAY_UI)}
+        mProximity.also { grav ->
             sensorManager.registerListener(this, grav, SensorManager.SENSOR_DELAY_UI)}
     }
 
@@ -96,6 +101,7 @@ class LevelTwoView @JvmOverloads constructor(
             if (oldImage!= image){
                 oldImage.recycle();
             }
+            sensorManager.unregisterListener(this)
             // Activating the button on the fragment for the win dialog
             parentFrag!!.view?.let { parentFrag!!.activateButton(it) }
         }
@@ -107,13 +113,17 @@ class LevelTwoView @JvmOverloads constructor(
 
     override fun onSensorChanged(event: SensorEvent) {
         // Just look when light is on or off
-        if(event.sensor.type == Sensor.TYPE_LIGHT)
+        if(event.sensor.type == Sensor.TYPE_LIGHT && isNear) {
             if (event.values[0] <= 3.0f) {
                 // Light is off, sun sleeps
                 isMorning = false
                 invalidate()
             }
-
+        } else if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
+            if (event.values[0] <= 4.0f) {
+                isNear = true
+            }
+        }
     }
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
