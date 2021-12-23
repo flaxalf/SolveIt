@@ -7,15 +7,12 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.os.SystemClock
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
 
 
@@ -91,10 +88,10 @@ class LevelThreeFragment : Fragment(), View.OnClickListener, SensorEventListener
     override fun onSensorChanged(event: SensorEvent) {
         if(event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
 
-            var netForce = event.values[0]*event.values[0];
+            var netForce = event.values[0]*event.values[0]
 
-            netForce+=event.values[1]*event.values[1];
-            netForce+=event.values[2]*event.values[2];
+            netForce+=event.values[1]*event.values[1]
+            netForce+=event.values[2]*event.values[2]
 
             if (threshold<netForce) {
                 glowStickGreyIV.alpha -= 0.1f
@@ -110,6 +107,6 @@ class LevelThreeFragment : Fragment(), View.OnClickListener, SensorEventListener
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
         //unused
-    };
+    }
 
 }
