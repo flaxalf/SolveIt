@@ -97,7 +97,7 @@ class LevelThreeFragment : Fragment(), View.OnClickListener, SensorEventListener
             netForce+=event.values[2]*event.values[2];
 
             if (threshold<netForce) {
-                glowStickGreyIV.alpha -= 0.005f
+                glowStickGreyIV.alpha -= 0.1f
             }
             //Log.d("Alpha", "alpha= " + glowStickGreyIV.alpha)
             if(glowStickGreyIV.alpha <= 0f){
