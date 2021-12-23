@@ -34,9 +34,9 @@ class LevelFourFragment : Fragment() {
 
         balloonIV = view.findViewById(R.id.balloonIV)
 
-        balloonIV.setOnClickListener(View.OnClickListener {
+        balloonIV.setOnClickListener {
             increaseSize()
-        })
+        }
 
         return view
     }
