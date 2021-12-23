@@ -9,14 +9,20 @@ import android.widget.ImageView
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.LevelsActivity
 import android.graphics.drawable.Drawable
-
-
+import android.graphics.drawable.AnimationDrawable
+import androidx.constraintlayout.widget.ConstraintLayout
 
 
 class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
+
+        val constraintLayout = findViewById<ConstraintLayout>(R.id.layout)
+        val animationDrawable = constraintLayout.background as AnimationDrawable
+        animationDrawable.setEnterFadeDuration(2000)
+        animationDrawable.setExitFadeDuration(4000)
+        animationDrawable.start()
 
         val logoIV = findViewById<ImageView>(R.id.logoIV)
         assets.open("LOGO SOLVE IT.png")
