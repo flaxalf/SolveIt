@@ -23,7 +23,11 @@ class LevelFourView @JvmOverloads constructor(
     private var parentFrag: LevelFourFragment?
 
     private lateinit var image: Bitmap
+    private lateinit var imageNeedle: Bitmap
     private var counter = 0
+
+    private val oldImage: Bitmap
+    private val oldImageNeedle: Bitmap
 
     init {
         isClickable = true
@@ -36,6 +40,8 @@ class LevelFourView @JvmOverloads constructor(
         }
         parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as LevelFourFragment?
 
+        oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("balloon_cut.png"))
+        oldImageNeedle = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("needle.png"))
     }
 
     override fun performClick(): Boolean {
@@ -52,18 +58,20 @@ class LevelFourView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        val oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("balloon.png"))
-        image = Bitmap.createScaledBitmap(oldImage, counter + (0.3f*width).toInt(), counter + (0.2*height).toInt(),false)
-        if (oldImage!= image){
-            oldImage.recycle()
-        }
+        image = Bitmap.createScaledBitmap(oldImage, counter + (0.2f*width).toInt(), counter + (0.2*height).toInt(),false)
 
-        // At least 10 clicks, true when counter <- 100
-        if ( counter / 10 >= 10) {
-            // Activating the button on the fragment for the win dialog
+        imageNeedle = Bitmap.createScaledBitmap(oldImageNeedle, (0.3f*width).toInt(), (0.2*height).toInt(),false)
+
+        val needleX = width - width / 3f
+        val needleY = (height - imageNeedle.height) / 2f
+
+        if (((width - image.width) / 2f + image.width) >= needleX ) {
+            // intersection of balloon and needle
             parentFrag!!.view?.let { parentFrag!!.activateButton(it) }
+        } else {
+            canvas.drawBitmap(image,(width - image.width) / 2f ,(height - image.height) / 2f,null)
         }
 
-        canvas.drawBitmap(image,(width - image.width) / 2f ,(height - image.height) / 2f,null)
+        canvas.drawBitmap(imageNeedle, needleX, needleY, null)
     }
 }
