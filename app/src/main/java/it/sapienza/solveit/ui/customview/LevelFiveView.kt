@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.LevelFiveFragment
+import it.sapienza.solveit.ui.models.Fire
 import java.lang.ClassCastException
 import kotlin.math.pow
 
@@ -22,12 +23,18 @@ class LevelFiveView @JvmOverloads constructor(
     private lateinit var fragmentManager: FragmentManager
     private var parentFrag: LevelFiveFragment?
 
-    private lateinit var image: Bitmap
+    private lateinit var imageSmall: Bitmap
+    private lateinit var imageMedium: Bitmap
+    private lateinit var imageLarge: Bitmap
 
     private var mCircleX = 500f
     private var mCircleY = 500f
     private var mCircleRadius = 250f
     private var mPaint: Paint
+
+    private lateinit var fire1: Fire
+    private lateinit var fire2: Fire
+    private lateinit var fire3: Fire
 
     private var isFirst = true
 
@@ -46,26 +53,26 @@ class LevelFiveView @JvmOverloads constructor(
         mPaint = Paint()
         mPaint.isAntiAlias = true
         mPaint.color = Color.parseColor("#00ccff")
-
-
     }
 
     private fun firstDraw() {
         // Create a bitmap of a fire, handle the touch event approximating the image as a circle
         val oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("fire_removebg.png"))
-        image = Bitmap.createScaledBitmap(oldImage, (0.3f*width).toInt(), (0.2*height).toInt(),false)
-        if (oldImage!= image){
+        imageSmall = Bitmap.createScaledBitmap(oldImage, (0.3f*width).toInt(), (0.2*height).toInt(),false)
+        imageMedium = Bitmap.createScaledBitmap(oldImage, (0.4f*width).toInt(), (0.3*height).toInt(),false)
+        imageLarge = Bitmap.createScaledBitmap(oldImage, (0.5f*width).toInt(), (0.4*height).toInt(),false)
+
+        if (oldImage!= imageSmall){
             oldImage.recycle()
         }
-        mCircleRadius = if (image.height > image.width)
-            image.height / 2f
-        else
-            image.width / 2f
 
-        mCircleX = (width) / 2f
-        mCircleY = (height) / 2f
+        // Three fires
+        fire1 = Fire(imageSmall, width / 2f, height / 2f)
+        fire2 = Fire(imageSmall, 3 * width / 4f, height / 4f)
+        fire1 = Fire(imageSmall, width / 4f, 3 * height / 4f)
 
         isFirst = false
+
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -74,7 +81,8 @@ class LevelFiveView @JvmOverloads constructor(
         if (isFirst)
             firstDraw()
 
-        canvas.drawBitmap(image, mCircleX -image.width/2f, mCircleY -image.height/2f,null)
+        canvas.drawBitmap(imageSmall, mCircleX -imageSmall.width/2f, mCircleY -imageSmall.height/2f,null)
+
 
         // Activating the button on the fragment for the win dialog
         //    parentFrag!!.view?.let { parentFrag!!.activateButton(it) }
