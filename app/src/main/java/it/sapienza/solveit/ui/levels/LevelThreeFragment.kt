@@ -46,8 +46,6 @@ class LevelThreeFragment : Fragment(), View.OnClickListener, SensorEventListener
         mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         mAccelerometer.also { grav ->
             sensorManager.registerListener(this, grav, SensorManager.SENSOR_DELAY_UI)}
-
-
     }
 
     override fun onCreateView(

@@ -4,32 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.levels.LevelOneFragment">
+    tools:context=".ui.levels.LevelFiveFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/buttonIV"
+            android:id="@+id/buttonIV5"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:alpha="1"
+            android:alpha="0"
             android:src="@drawable/ic_red_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <it.sapienza.solveit.ui.customview.LevelOneView
-            android:id="@+id/balloonView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

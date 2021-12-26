@@ -36,12 +36,11 @@ class LevelOneView @JvmOverloads constructor(
     private var parentFrag: LevelOneFragment?
 
     init {
-        val activity = context as Activity
-
         // Dynamically change hint and level number on the activity textviews'
-        var hint = activity.findViewById<TextView>(R.id.hintTV)
+        val activity = context as Activity
+        val hint = activity.findViewById<TextView>(R.id.hintTV)
         hint.text = "Round rocks? Maybe one can rotate..."
-        var textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
+        val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
         textLevel.text = "Level 1"
 
         // Retrieve parent fragment
@@ -51,7 +50,6 @@ class LevelOneView @JvmOverloads constructor(
             Log.e("Error fragment manager", "Can't get fragment manager")
         }
         parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as LevelOneFragment?
-
 
         // Define the initial moving bitmap
         image = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("rock_1920.png"))

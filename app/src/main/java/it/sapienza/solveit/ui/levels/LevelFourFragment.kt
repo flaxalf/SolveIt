@@ -2,7 +2,6 @@ package it.sapienza.solveit.ui.levels
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,43 +10,49 @@ import android.widget.ImageView
 import android.widget.TextView
 import it.sapienza.solveit.R
 
-class LevelFourFragment : Fragment() {
-    private lateinit var balloonIV: ImageView
+class LevelFourFragment : Fragment(), View.OnClickListener {
+        private lateinit var buttonIV4: ImageView
+        private val winnerDialog = CustomDialogFragment()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
 
-        // Dynamically change hint and level number on the activity textviews'
-        val activity = context as Activity
-        val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.text = "Fiuuu"
-        val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
-        textLevel.text = "Level 4"
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_level_four, container, false)
-
-        balloonIV = view.findViewById(R.id.balloonIV)
-
-        balloonIV.setOnClickListener {
-            increaseSize()
+            // Dynamically change hint and level number on the activity textviews'
+            val activity = context as Activity
+            val hint = activity.findViewById<TextView>(R.id.hintTV)
+            hint.text = "Inflate it"
+            val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
+            textLevel.text = "Level 4"
         }
 
-        return view
-    }
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {
+            // The fragment contains a custom view that handle sensor and canvas drawing
+            val view = inflater.inflate(R.layout.fragment_level_four, container, false)
 
-    fun increaseSize() {
-        Log.d("size", "must increase size")
-        // Come ingrandire una image view?
-        // Invece del click dovrebbe esserci il soffio nel microfono, ma come funziona?
-        // forse difficile
-        // alternativa: rendere il tutto una view, e permettere di trascinare il palloncino all'ago
-        // quando collide scoppia
-    }
+            buttonIV4 = view.findViewById(R.id.buttonIV4)
+            buttonIV4.isClickable = false
+
+            return view
+        }
+
+        fun activateButton(v: View) {
+            buttonIV4 = v.findViewById(R.id.buttonIV4)
+            buttonIV4.setOnClickListener(this)
+            buttonIV4.alpha = 1f
+            buttonIV4.isClickable = true
+        }
+
+        override fun onClick(v: View) {
+            val bundle = Bundle()
+            bundle.putInt("Level", 4) // Say to the dialog that fragment 4 call it
+
+            winnerDialog.arguments = bundle
+            when (v.id) {
+                R.id.buttonIV4 -> {
+                    winnerDialog.show(parentFragmentManager, "Next level")
+                }
+            }
+        }
+
 
 }

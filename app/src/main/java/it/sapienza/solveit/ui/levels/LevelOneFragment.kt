@@ -1,21 +1,19 @@
 package it.sapienza.solveit.ui.levels
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import it.sapienza.solveit.R
 
 
 class LevelOneFragment : Fragment(), View.OnClickListener {
     private lateinit var buttonIV: ImageView
     private val winnerDialog = CustomDialogFragment()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {
         // The fragment contains a custom view that handle sensor and canvas drawing

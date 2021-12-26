@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import it.sapienza.solveit.R
+import it.sapienza.solveit.ui.MenuActivity
 
 class CustomDialogFragment: DialogFragment() {
     private lateinit var nextFragmentButton: Button
@@ -25,13 +26,13 @@ class CustomDialogFragment: DialogFragment() {
 
         nextFragmentButton = rootView.findViewById(R.id.nextLevelButton) as Button
         nextFragmentButton.setOnClickListener {
-            // TODO: riempire con gli altri livelli
             val levelFragment: Fragment = when (info_level) {
                 0 -> LevelOneFragment()
                 1 -> LevelTwoFragment()
                 2 -> LevelThreeFragment()
                 3 -> LevelFourFragment()
-                //4 -> LevelFiveFragment()
+                4 -> LevelFiveFragment()
+                //5 -> WinFragment()
                 else -> LevelOneFragment()
             }
 
