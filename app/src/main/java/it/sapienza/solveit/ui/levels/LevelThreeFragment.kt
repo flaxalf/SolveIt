@@ -27,8 +27,6 @@ class LevelThreeFragment : Fragment(), View.OnClickListener, SensorEventListener
 
     private var threshold : Double = 10.0 * SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

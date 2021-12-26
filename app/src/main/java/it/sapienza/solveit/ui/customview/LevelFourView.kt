@@ -8,7 +8,6 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
@@ -67,5 +66,4 @@ class LevelFourView @JvmOverloads constructor(
 
         canvas.drawBitmap(image,(width - image.width) / 2f ,(height - image.height) / 2f,null)
     }
-
 }
