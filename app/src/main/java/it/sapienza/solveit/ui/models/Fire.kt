@@ -5,22 +5,37 @@ import android.graphics.Rect
 
 class Fire(private var image: Bitmap,
            private var initialX: Float, private var initialY: Float) {
-    private var rect : Rect
-    private var mCircleX : Float = initialX
-    private var mCircleY : Float = initialY
-    private var mCircleRadius : Float = 0f
-    private var fireHeight = image.height
-    private var fireWidth = image.width
+
+    var active = true
+    var level : Int = Constants.FIRE_SMALL
+
+    var fireImage = image
+    private var fireHeight = fireImage.height
+    private var fireWidth = fireImage.width
+
+    var rect : Rect = Rect()
+    var mCircleX : Float = initialX
+    var mCircleY : Float = initialY
+    var mCircleRadius : Float = 0f
+
 
     init {
-        // Initialize rectangle useful for collision detection
-        rect = Rect()
+        refreshParams()
+    }
+
+    fun refreshParams(){
+        //refresh image dimension, useful when image changes
+        fireHeight = fireImage.height
+        fireWidth = fireImage.width
+
+        //refresh rectangle, useful for collision detection
         rect.set((mCircleX -fireWidth/2f).toInt(),
             (mCircleY -fireHeight/2f).toInt(),
             (mCircleX -fireWidth/2f + fireWidth).toInt(),
             (mCircleY -fireHeight/2f + fireHeight).toInt()
         )
 
+        //refresh radius, useful for collision detection
         mCircleRadius = if (fireHeight > fireWidth)
             fireHeight / 2f
         else
@@ -28,6 +43,9 @@ class Fire(private var image: Bitmap,
     }
 
     fun intersect(f : Fire): Boolean {
+        if(!active || !f.active){
+            return false
+        }
         return Rect.intersects(rect, f.rect)
     }
 }
