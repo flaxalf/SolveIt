@@ -47,7 +47,7 @@ class LevelTwoFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         val bundle = Bundle()
-        bundle.putInt("Level", 2) // Say to the dialog that fragment 2 call it
+        bundle.putInt(Constants.LEVEL, 2) // Say to the dialog that fragment 2 call it
         bundle.putBoolean(Constants.IS_SINGLE, true)
         winnerDialog.arguments = bundle
         when (v.id) {

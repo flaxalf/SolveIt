@@ -46,7 +46,7 @@ class LevelFiveFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         val bundle = Bundle()
-        bundle.putInt("Level", 5) // Say to the dialog that fragment 5 call it
+        bundle.putInt(Constants.LEVEL, 5) // Say to the dialog that fragment 5 call it
         bundle.putBoolean(Constants.IS_SINGLE, true)
         winnerDialog.arguments = bundle
         when (v.id) {

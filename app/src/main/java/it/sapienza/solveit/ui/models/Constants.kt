@@ -9,7 +9,8 @@ class Constants {
         const val FIRE_MEDIUM = 1
         const val FIRE_LARGE = 2
 
-        //single or multi
+        //change fragments constants
+        const val LEVEL = "Level"
         const val IS_SINGLE = "IS_SINGLE"
     }
 }

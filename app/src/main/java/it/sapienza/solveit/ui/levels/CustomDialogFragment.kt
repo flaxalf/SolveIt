@@ -21,7 +21,7 @@ class CustomDialogFragment: DialogFragment() {
         var isSingle = true
 
         if (bundle != null) {
-            infoLevel = bundle.getInt("Level")
+            infoLevel = bundle.getInt(Constants.LEVEL)
             isSingle = bundle.getBoolean(Constants.IS_SINGLE)
         }
 
