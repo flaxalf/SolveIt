@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.levels.single.WinActivity">
+
+
+    <View
+        android:id="@+id/roundWinView"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rounded_box"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.447" />
+
+    <TextView
+        android:id="@+id/winTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="Congratulations, you won!"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/roundWinView"
+        app:layout_constraintEnd_toEndOf="@+id/roundWinView"
+        app:layout_constraintStart_toStartOf="@+id/roundWinView"
+        app:layout_constraintTop_toTopOf="@+id/roundWinView"
+        app:layout_constraintVertical_bias="0.32" />
+
+    <Button
+        android:id="@+id/homeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_oval_shape"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="Home"
+        app:layout_constraintBottom_toBottomOf="@+id/roundWinView"
+        app:layout_constraintEnd_toEndOf="@+id/roundWinView"
+        app:layout_constraintStart_toStartOf="@+id/roundWinView"
+        app:layout_constraintTop_toBottomOf="@+id/winTV" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

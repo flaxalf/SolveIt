@@ -1,5 +1,6 @@
 package it.sapienza.solveit.ui.levels.single
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,18 +25,22 @@ class CustomDialogFragment: DialogFragment() {
 
         nextFragmentButton = rootView.findViewById(R.id.nextLevelButton) as Button
         nextFragmentButton.setOnClickListener {
-            val levelFragment: Fragment = when (info_level) {
+            val levelFragment: Fragment? = when (info_level) {
                 0 -> LevelOneFragment()
                 1 -> LevelTwoFragment()
                 2 -> LevelThreeFragment()
                 3 -> LevelFourFragment()
                 4 -> LevelFiveFragment()
-                //5 -> WinFragment()
-                else -> LevelOneFragment()
+                else -> null
             }
 
-            parentFragmentManager.beginTransaction().replace(R.id.fragmentContainerView, levelFragment).commit()
-            dismiss()
+            if(levelFragment != null) {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainerView, levelFragment).commit()
+                dismiss()
+            } else{
+                startActivity(Intent(activity, WinActivity::class.java))
+            }
         }
         return rootView
     }
