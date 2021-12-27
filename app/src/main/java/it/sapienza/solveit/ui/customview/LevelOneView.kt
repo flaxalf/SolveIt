@@ -15,7 +15,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.LevelOneFragment
+import it.sapienza.solveit.ui.levels.single.LevelOneFragment
 import java.lang.ClassCastException
 import kotlin.math.abs
 

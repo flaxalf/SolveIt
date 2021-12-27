@@ -32,7 +32,7 @@
         </activity>
 
         <activity
-            android:name=".ui.levels.LevelsActivity"
+            android:name=".ui.levels.single.LevelsActivity"
             android:exported="true">
 
         </activity>

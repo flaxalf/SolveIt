@@ -1,4 +1,4 @@
-package it.sapienza.solveit.ui.levels
+package it.sapienza.solveit.ui.levels.single
 
 import android.app.Activity
 import android.os.Bundle

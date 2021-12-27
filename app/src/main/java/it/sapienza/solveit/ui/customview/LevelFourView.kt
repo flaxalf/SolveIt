@@ -11,7 +11,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.LevelFourFragment
+import it.sapienza.solveit.ui.levels.single.LevelFourFragment
 import java.lang.ClassCastException
 
 class LevelFourView @JvmOverloads constructor(

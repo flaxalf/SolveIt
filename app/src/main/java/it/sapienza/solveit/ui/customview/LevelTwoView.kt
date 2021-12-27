@@ -10,11 +10,10 @@ import android.hardware.SensorManager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.LevelTwoFragment
+import it.sapienza.solveit.ui.levels.single.LevelTwoFragment
 import java.lang.ClassCastException
 
 class LevelTwoView @JvmOverloads constructor(

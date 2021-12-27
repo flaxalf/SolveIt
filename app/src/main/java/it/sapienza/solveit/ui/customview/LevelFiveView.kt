@@ -10,7 +10,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.LevelFiveFragment
+import it.sapienza.solveit.ui.levels.single.LevelFiveFragment
 import it.sapienza.solveit.ui.models.Constants
 import it.sapienza.solveit.ui.models.Fire
 import java.lang.ClassCastException
