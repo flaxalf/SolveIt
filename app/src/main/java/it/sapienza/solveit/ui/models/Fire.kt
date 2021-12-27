@@ -7,6 +7,7 @@ class Fire(private var image: Bitmap,
            private var initialX: Float, private var initialY: Float) {
 
     var active = true
+    var isTouched = false
     var level : Int = Constants.FIRE_SMALL
 
     var fireImage = image

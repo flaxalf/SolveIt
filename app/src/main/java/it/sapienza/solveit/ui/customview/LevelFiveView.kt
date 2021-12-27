@@ -117,24 +117,27 @@ class LevelFiveView @JvmOverloads constructor(
                 MotionEvent.ACTION_MOVE -> {
 
                     when {
-                        checkFireTouched(event, fire1) -> {
+                        checkFireTouched(event, fire1) && !fire2.isTouched && !fire3.isTouched -> {
                             // Touched fire1
+                            fire1.isTouched = true
                             fire1.mCircleX = event.x
                             fire1.mCircleY = event.y
                             fire1.refreshParams()
 
                             value = true
                         }
-                        checkFireTouched(event, fire2) -> {
+                        checkFireTouched(event, fire2) && !fire1.isTouched && !fire3.isTouched -> {
                             // Touched fire2
+                            fire2.isTouched = true
                             fire2.mCircleX = event.x
                             fire2.mCircleY = event.y
                             fire2.refreshParams()
 
                             value = true
                         }
-                        checkFireTouched(event, fire3) -> {
+                        checkFireTouched(event, fire3) && !fire1.isTouched && !fire2.isTouched  -> {
                             // Touched fire3
+                            fire3.isTouched = true
                             fire3.mCircleX = event.x
                             fire3.mCircleY = event.y
                             fire3.refreshParams()
@@ -147,7 +150,9 @@ class LevelFiveView @JvmOverloads constructor(
                 }
 
                 MotionEvent.ACTION_UP -> {
-
+                    fire1.isTouched = false
+                    fire2.isTouched = false
+                    fire3.isTouched = false
                     when {
                         fire1.intersect(fire2) -> {
 
