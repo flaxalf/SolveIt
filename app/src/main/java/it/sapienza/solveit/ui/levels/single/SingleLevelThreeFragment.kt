@@ -53,7 +53,7 @@ class SingleLevelThreeFragment : Fragment(), View.OnClickListener, SensorEventLi
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_level_three, container, false)
+        val view = inflater.inflate(R.layout.fragment_single_level_three, container, false)
 
         buttonIV3 = view.findViewById(R.id.buttonIV3)
         buttonIV3.isClickable = false

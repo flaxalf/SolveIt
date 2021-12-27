@@ -30,7 +30,7 @@ class SingleLevelTwoFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {
         // The fragment contains a custom view that handle sensor and canvas drawing
-        val view: View = inflater.inflate(R.layout.fragment_level_two, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_single_level_two, container, false)
 
         buttonIV2 = view.findViewById(R.id.buttonIV2)
         buttonIV2.isClickable = false
