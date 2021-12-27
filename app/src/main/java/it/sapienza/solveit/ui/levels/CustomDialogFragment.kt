@@ -32,21 +32,21 @@ class CustomDialogFragment: DialogFragment() {
             var levelFragment : Fragment?
             if(isSingle) {
                  levelFragment = when (infoLevel) {
-                    0 -> LevelOneFragment()
-                    1 -> LevelTwoFragment()
-                    2 -> LevelThreeFragment()
-                    3 -> LevelFourFragment()
-                    4 -> LevelFiveFragment()
+                    0 -> SingleLevelOneFragment()
+                    1 -> SingleLevelTwoFragment()
+                    2 -> SingleLevelThreeFragment()
+                    3 -> SingleLevelFourFragment()
+                    4 -> SingleLevelFiveFragment()
                     5 -> null
                     else -> null
                 }
             } else{
                 levelFragment = when (infoLevel) {
-                    0 -> LevelOneFragment()
-                    1 -> LevelTwoFragment()
-                    2 -> LevelThreeFragment()
-                    3 -> LevelFourFragment()
-                    4 -> LevelFiveFragment()
+                    0 -> SingleLevelOneFragment()
+                    1 -> SingleLevelTwoFragment()
+                    2 -> SingleLevelThreeFragment()
+                    3 -> SingleLevelFourFragment()
+                    4 -> SingleLevelFiveFragment()
                     5 -> null
                     else -> null
                 }

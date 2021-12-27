@@ -10,19 +10,19 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.single.LevelFiveFragment
+import it.sapienza.solveit.ui.levels.single.SingleLevelFiveFragment
 import it.sapienza.solveit.ui.models.Constants
 import it.sapienza.solveit.ui.models.Fire
 import java.lang.ClassCastException
 import kotlin.math.pow
 
-class LevelFiveView @JvmOverloads constructor(
+class SingleLevelFiveView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
     private lateinit var fragmentManager: FragmentManager
-    private var parentFrag: LevelFiveFragment?
+    private var parentFrag: SingleLevelFiveFragment?
 
     private lateinit var imageSmall: Bitmap
     private lateinit var imageMedium: Bitmap
@@ -45,7 +45,7 @@ class LevelFiveView @JvmOverloads constructor(
         } catch (e: ClassCastException) {
             Log.e("Error fragment manager", "Can't get fragment manager")
         }
-        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as LevelFiveFragment?
+        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as SingleLevelFiveFragment?
 
         // Initialize a PAINT for the circle
         mPaint = Paint()

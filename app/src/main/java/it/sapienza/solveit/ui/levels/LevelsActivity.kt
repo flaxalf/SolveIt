@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.MenuActivity
-import it.sapienza.solveit.ui.levels.single.LevelOneFragment
-import it.sapienza.solveit.ui.levels.single.LevelTwoFragment
+import it.sapienza.solveit.ui.levels.single.SingleLevelOneFragment
+import it.sapienza.solveit.ui.levels.single.SingleLevelTwoFragment
 import it.sapienza.solveit.ui.models.Constants
 
 class LevelsActivity : AppCompatActivity() {
@@ -30,11 +30,11 @@ class LevelsActivity : AppCompatActivity() {
 
         if(isSingle) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainerView, LevelOneFragment())
+                .add(R.id.fragmentContainerView, SingleLevelOneFragment())
                 .commit()
         } else{
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainerView, LevelTwoFragment())
+                .add(R.id.fragmentContainerView, SingleLevelTwoFragment())
                 .commit()
         }
 

@@ -15,12 +15,12 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.single.LevelOneFragment
+import it.sapienza.solveit.ui.levels.single.SingleLevelOneFragment
 import java.lang.ClassCastException
 import kotlin.math.abs
 
 
-class LevelOneView @JvmOverloads constructor(
+class SingleLevelOneView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -33,7 +33,7 @@ class LevelOneView @JvmOverloads constructor(
     private var counter = 0
     private var completed = false
     private lateinit var fragmentManager: FragmentManager
-    private var parentFrag: LevelOneFragment?
+    private var parentFrag: SingleLevelOneFragment?
 
     init {
         // Dynamically change hint and level number on the activity textviews'
@@ -49,7 +49,7 @@ class LevelOneView @JvmOverloads constructor(
         } catch (e: ClassCastException) {
             Log.e("Error fragment manager", "Can't get fragment manager")
         }
-        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as LevelOneFragment?
+        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as SingleLevelOneFragment?
 
         // Define the initial moving bitmap
         image = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("rock_1920.png"))

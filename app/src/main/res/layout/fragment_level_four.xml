@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.levels.single.LevelFourFragment">
+    tools:context=".ui.levels.single.SingleLevelFourFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <it.sapienza.solveit.ui.customview.LevelFourView
+        <it.sapienza.solveit.ui.customview.SingleLevelFourView
             android:id="@+id/balloonView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

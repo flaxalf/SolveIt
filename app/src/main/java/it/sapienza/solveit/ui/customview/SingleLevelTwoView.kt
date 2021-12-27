@@ -13,10 +13,10 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.single.LevelTwoFragment
+import it.sapienza.solveit.ui.levels.single.SingleLevelTwoFragment
 import java.lang.ClassCastException
 
-class LevelTwoView @JvmOverloads constructor(
+class SingleLevelTwoView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -29,7 +29,7 @@ class LevelTwoView @JvmOverloads constructor(
     private var mProximity: Sensor? = null
 
     private lateinit var fragmentManager: FragmentManager
-    private var parentFrag: LevelTwoFragment?
+    private var parentFrag: SingleLevelTwoFragment?
 
 
     private lateinit var image: Bitmap
@@ -44,7 +44,7 @@ class LevelTwoView @JvmOverloads constructor(
         } catch (e: ClassCastException) {
             Log.e("Error fragment manager", "Can't get fragment manager")
         }
-        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as LevelTwoFragment?
+        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as SingleLevelTwoFragment?
 
         // SENSOR
         sensorManager =

@@ -11,16 +11,16 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.single.LevelFourFragment
+import it.sapienza.solveit.ui.levels.single.SingleLevelFourFragment
 import java.lang.ClassCastException
 
-class LevelFourView @JvmOverloads constructor(
+class SingleLevelFourView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
     private lateinit var fragmentManager: FragmentManager
-    private var parentFrag: LevelFourFragment?
+    private var parentFrag: SingleLevelFourFragment?
 
     private lateinit var image: Bitmap
     private lateinit var imageNeedle: Bitmap
@@ -38,7 +38,7 @@ class LevelFourView @JvmOverloads constructor(
         } catch (e: ClassCastException) {
             Log.e("Error fragment manager", "Can't get fragment manager")
         }
-        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as LevelFourFragment?
+        parentFrag  = fragmentManager.findFragmentById(R.id.fragmentContainerView) as SingleLevelFourFragment?
 
         oldImage = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("balloon_cut.png"))
         oldImageNeedle = BitmapFactory.decodeStream((context as? Activity)?.assets?.open("needle.png"))

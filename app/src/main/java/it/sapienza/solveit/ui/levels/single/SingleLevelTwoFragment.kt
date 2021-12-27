@@ -13,7 +13,7 @@ import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
 
 
-class LevelTwoFragment : Fragment(), View.OnClickListener {
+class SingleLevelTwoFragment : Fragment(), View.OnClickListener {
     private lateinit var buttonIV2: ImageView
     private val winnerDialog = CustomDialogFragment()
 

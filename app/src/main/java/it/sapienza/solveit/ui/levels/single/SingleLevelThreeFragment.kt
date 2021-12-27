@@ -18,7 +18,7 @@ import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
 
 
-class LevelThreeFragment : Fragment(), View.OnClickListener, SensorEventListener  {
+class SingleLevelThreeFragment : Fragment(), View.OnClickListener, SensorEventListener  {
 
     private lateinit var buttonIV3: ImageView
     private lateinit var glowStickGreyIV: ImageView
