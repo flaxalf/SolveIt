@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".ui.levels.single.WinActivity"
+            android:name=".ui.levels.WinActivity"
             android:exported="false" />
         <activity
             android:name=".ui.auth.LoginActivity"
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.levels.single.LevelsActivity"
+            android:name=".ui.levels.LevelsActivity"
             android:exported="true"></activity>
 
         <meta-data

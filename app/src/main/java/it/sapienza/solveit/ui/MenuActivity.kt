@@ -7,10 +7,11 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.single.LevelsActivity
+import it.sapienza.solveit.ui.levels.LevelsActivity
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.AnimationDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
+import it.sapienza.solveit.ui.models.Constants
 
 
 class MenuActivity : AppCompatActivity() {
@@ -30,11 +31,25 @@ class MenuActivity : AppCompatActivity() {
 
         val animZoom = AnimationUtils.loadAnimation(applicationContext, R.anim.zoom)
         val btnSingle = findViewById<Button>(R.id.buttonSingle)
+        val btnMulti = findViewById<Button>(R.id.buttonMulti)
+
+        val newIntent = Intent(this@MenuActivity, LevelsActivity::class.java)
+        val bundle = Bundle()
 
         btnSingle.setOnClickListener{
             btnSingle.startAnimation(animZoom)
-            startActivity(Intent(this@MenuActivity, LevelsActivity::class.java))
+            bundle.putBoolean(Constants.IS_SINGLE, true)
+            newIntent.putExtras(bundle)
+            startActivity(newIntent)
         }
+
+        btnMulti.setOnClickListener{
+            btnMulti.startAnimation(animZoom)
+            bundle.putBoolean(Constants.IS_SINGLE, false)
+            newIntent.putExtras(bundle)
+            startActivity(newIntent)
+        }
+
     }
 
     // for handling back button of the Android Device

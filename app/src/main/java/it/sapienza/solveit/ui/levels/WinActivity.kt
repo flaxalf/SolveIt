@@ -1,4 +1,4 @@
-package it.sapienza.solveit.ui.levels.single
+package it.sapienza.solveit.ui.levels
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

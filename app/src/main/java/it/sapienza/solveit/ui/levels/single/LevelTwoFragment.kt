@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import it.sapienza.solveit.R
+import it.sapienza.solveit.ui.levels.CustomDialogFragment
+import it.sapienza.solveit.ui.models.Constants
 
 
 class LevelTwoFragment : Fragment(), View.OnClickListener {
@@ -46,7 +48,7 @@ class LevelTwoFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         val bundle = Bundle()
         bundle.putInt("Level", 2) // Say to the dialog that fragment 2 call it
-
+        bundle.putBoolean(Constants.IS_SINGLE, true)
         winnerDialog.arguments = bundle
         when (v.id) {
             R.id.buttonIV2 -> {
