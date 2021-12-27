@@ -142,29 +142,31 @@ class LevelFiveView @JvmOverloads constructor(
                             value = true
                         }
                     }
+                    postInvalidate()
 
-                    if(value) {
-                        when {
-                            fire1.intersect(fire2) -> {
+                }
 
-                                mergeFires(fire1, fire2)
+                MotionEvent.ACTION_UP -> {
 
-                            }
-                            fire1.intersect(fire3) -> {
+                    when {
+                        fire1.intersect(fire2) -> {
 
-                                mergeFires(fire1, fire3)
+                            mergeFires(fire1, fire2)
 
-                            }
-                            fire2.intersect(fire3) -> {
-
-                                mergeFires(fire1, fire2)
-
-                            }
                         }
+                        fire1.intersect(fire3) -> {
 
-                        postInvalidate()
+                            mergeFires(fire1, fire3)
+
+                        }
+                        fire2.intersect(fire3) -> {
+
+                            mergeFires(fire1, fire2)
+
+                        }
                     }
-
+                    postInvalidate()
+                    value = true
                 }
 
                 MotionEvent.ACTION_DOWN -> {
