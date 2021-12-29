@@ -3,17 +3,16 @@ package it.sapienza.solveit.ui.levels.multi
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import it.sapienza.solveit.R
 import android.widget.TextView
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
+import kotlinx.coroutines.*
 
 
 class MultiLevelFiveFragment : Fragment() {
@@ -56,6 +55,16 @@ class MultiLevelFiveFragment : Fragment() {
     private fun performAnimation() {
         counter++
 
+        if(counter == 100) {
+            GlobalScope.launch {
+                async {
+                    delay(5000L)
+                    if(counter == 100){
+                        nextLevel()
+                    }
+                }
+            }
+        }
         val animator : ValueAnimator
 
         if(counter <= 100) {
