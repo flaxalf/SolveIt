@@ -1,5 +1,6 @@
 package it.sapienza.solveit.ui.levels.multi
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
@@ -11,9 +12,13 @@ import android.widget.Button
 import it.sapienza.solveit.R
 import android.view.MotionEvent
 import android.widget.TextView
+import it.sapienza.solveit.ui.levels.CustomDialogFragment
+import it.sapienza.solveit.ui.models.Constants
+import java.lang.Thread.sleep
 
 
 class MultiLevelOneFragment : Fragment() {
+    private val winnerDialog = CustomDialogFragment()
     private lateinit var button1: Button
     private lateinit var button2: Button
     private lateinit var button3: Button
@@ -36,6 +41,7 @@ class MultiLevelOneFragment : Fragment() {
         textLevel.text = "Level 1"
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +55,8 @@ class MultiLevelOneFragment : Fragment() {
             if (event.action == MotionEvent.ACTION_DOWN) {
                 // Pressed
                 chosenButton.setBackgroundColor(Color.GREEN)
+                sleep(1000)
+                nextLevel()
             } else if (event.action == MotionEvent.ACTION_UP) {
                 // Released
                 chosenButton.setBackgroundColor(Color.RED)
@@ -87,6 +95,14 @@ class MultiLevelOneFragment : Fragment() {
         }
 
         return chosenButton
+    }
+
+    private fun nextLevel(){
+        val bundle = Bundle()
+        bundle.putInt(Constants.LEVEL, 1) // Say to the dialog that fragment 1 called it
+        bundle.putBoolean(Constants.IS_SINGLE, false)
+        winnerDialog.arguments = bundle
+        winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)
     }
 
 }

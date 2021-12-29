@@ -33,12 +33,12 @@ class SingleLevelOneFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         val bundle = Bundle()
-        bundle.putInt(Constants.LEVEL, 1) // Say to the dialog that fragment 1 call it
+        bundle.putInt(Constants.LEVEL, 1) // Say to the dialog that fragment 1 called it
         bundle.putBoolean(Constants.IS_SINGLE, true)
         winnerDialog.arguments = bundle
         when (v.id) {
             R.id.buttonIV -> {
-                winnerDialog.show(parentFragmentManager, "Next level")
+                winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)
             }
         }
     }

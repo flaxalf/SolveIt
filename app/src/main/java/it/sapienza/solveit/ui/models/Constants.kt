@@ -12,5 +12,6 @@ class Constants {
         //change fragments constants
         const val LEVEL = "Level"
         const val IS_SINGLE = "IS_SINGLE"
+        const val NEXT_LEVEL = "Next level"
     }
 }
