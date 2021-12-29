@@ -9,9 +9,7 @@ import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.levels.multi.MultiLevelFiveFragment
-import it.sapienza.solveit.ui.levels.multi.MultiLevelOneFragment
-import it.sapienza.solveit.ui.levels.multi.MultiLevelTwoFragment
+import it.sapienza.solveit.ui.levels.multi.*
 import it.sapienza.solveit.ui.levels.single.*
 import it.sapienza.solveit.ui.models.Constants
 
@@ -47,8 +45,8 @@ class CustomDialogFragment: DialogFragment() {
                 levelFragment = when (infoLevel) {
                     0 -> MultiLevelOneFragment()
                     1 -> MultiLevelTwoFragment()
-                    2 -> SingleLevelThreeFragment()
-                    3 -> SingleLevelFourFragment()
+                    2 -> MultiLevelThreeFragment()
+                    3 -> MultiLevelFourFragment()
                     4 -> MultiLevelFiveFragment()
                     5 -> null
                     else -> null

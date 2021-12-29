@@ -50,10 +50,16 @@ class MultiLevelTwoFragment : Fragment() {
             if (numberET.text != null && numberET.text.isNotEmpty()) {
                 val number = numberET.text.toString()
                 Log.d("number","numberEt.text=$number")
-
+                buttonMulti2.isClickable = false
+                numberET.isClickable = false
                 //if (numberET.text == cloud.numberText)
                 if(numberET.text.toString() == "5"){
                     nextLevel()
+                } else{
+                    buttonMulti2.isClickable = true
+                    numberET.isClickable = true
+                    Toast.makeText(context as Activity, "The other player choose 5." +
+                            "Try again", Toast.LENGTH_SHORT).show()
                 }
             } else{
                 Toast.makeText(context as Activity, "You must insert a number", Toast.LENGTH_SHORT).show()
