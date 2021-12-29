@@ -12,7 +12,10 @@ import it.sapienza.solveit.R
 import android.widget.TextView
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class MultiLevelFiveFragment : Fragment() {
@@ -20,7 +23,8 @@ class MultiLevelFiveFragment : Fragment() {
     private lateinit var counterTV: TextView
     private lateinit var buttonIV6: ImageView
 
-    private var counter = 0;
+    private var counter = 0
+    private var goal = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +32,7 @@ class MultiLevelFiveFragment : Fragment() {
         // Dynamically change hint and level number on the activity textviews
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.text = "Reach exactly 100"
+        hint.text = "Reach exactly $goal"
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
         textLevel.text = "Level 5"
     }
@@ -55,11 +59,11 @@ class MultiLevelFiveFragment : Fragment() {
     private fun performAnimation() {
         counter++
 
-        if(counter == 100) {
+        if(counter == goal) {
             GlobalScope.launch {
                 async {
                     delay(5000L)
-                    if(counter == 100){
+                    if(counter == goal){
                         nextLevel()
                     }
                 }
@@ -67,7 +71,7 @@ class MultiLevelFiveFragment : Fragment() {
         }
         val animator : ValueAnimator
 
-        if(counter <= 100) {
+        if(counter <= goal) {
              animator = ValueAnimator.ofInt(counter - 1, counter)
         } else{
             animator = ValueAnimator.ofInt(counter - 1, 0)
