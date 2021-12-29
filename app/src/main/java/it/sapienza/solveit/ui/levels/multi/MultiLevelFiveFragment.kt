@@ -3,11 +3,13 @@ package it.sapienza.solveit.ui.levels.multi
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import it.sapienza.solveit.R
 import android.widget.TextView
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
@@ -17,8 +19,9 @@ import it.sapienza.solveit.ui.models.Constants
 class MultiLevelFiveFragment : Fragment() {
     private val winnerDialog = CustomDialogFragment()
     private lateinit var counterTV: TextView
+    private lateinit var buttonIV6: ImageView
 
-
+    private var counter = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,22 +40,39 @@ class MultiLevelFiveFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_multi_level_five, container, false)
-
         counterTV = view.findViewById(R.id.counterTV)
-        startAnimation(counterTV)
+        buttonIV6 = view.findViewById(R.id.buttonIV6)
+
+
+        buttonIV6.setOnClickListener {
+            performAnimation()
+        }
+
 
         return view
     }
 
 
-    private fun startAnimation(textView: TextView) {
-        val animator = ValueAnimator.ofInt(0, 600)
-        animator.duration = 5000 // 5 seconds
+    private fun performAnimation() {
+        counter++
+
+        val animator : ValueAnimator
+
+        if(counter <= 100) {
+             animator = ValueAnimator.ofInt(counter - 1, counter)
+        } else{
+            animator = ValueAnimator.ofInt(counter - 1, 0)
+            counter = 0
+        }
+        animator.duration = 1
+        animator.repeatCount = 0
         animator.addUpdateListener { animation ->
-            textView.text = animation.animatedValue.toString()
+            counterTV.text = animation.animatedValue.toString()
         }
         animator.start()
     }
+
+
 
 
     private fun nextLevel(){
