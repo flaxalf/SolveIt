@@ -1,7 +1,9 @@
 package it.sapienza.solveit.ui.levels.multi
 
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +12,16 @@ import android.widget.TextView
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.lang.Thread.sleep
 
 class MultiLevelThreeFragment : Fragment() {
     private val winnerDialog = CustomDialogFragment()
 
+    private lateinit var timerTV: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +29,7 @@ class MultiLevelThreeFragment : Fragment() {
         // Dynamically change hint and level number on the activity textviews'
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.text = "Guess the same number!"
+        hint.text = "Defuse the bomb!"
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
         textLevel.text = "Level 3"
     }
@@ -32,6 +40,9 @@ class MultiLevelThreeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_multi_level_three, container, false)
+        timerTV = view.findViewById(R.id.timerTV)
+
+        startTimer()
 
         return view
     }
@@ -43,5 +54,24 @@ class MultiLevelThreeFragment : Fragment() {
         bundle.putBoolean(Constants.IS_SINGLE, false)
         winnerDialog.arguments = bundle
         winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)
+    }
+
+
+    private fun startTimer() {
+        val animator : ValueAnimator = ValueAnimator.ofInt(60, 0)
+        animator.duration = 60000 //60 secs in ms
+        animator.repeatCount = ValueAnimator.INFINITE
+        animator.addUpdateListener { animation ->
+            timerTV.text = animation.animatedValue.toString()
+            if(timerTV.text == "0"){
+                //TODO: restart level
+                Log.d("timer", "restart level")
+                animator.pause()
+                sleep(1000)
+                animator.start()
+
+            }
+        }
+        animator.start()
     }
 }

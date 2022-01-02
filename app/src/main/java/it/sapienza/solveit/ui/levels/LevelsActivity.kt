@@ -7,6 +7,7 @@ import android.widget.ImageView
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.MenuActivity
 import it.sapienza.solveit.ui.levels.multi.MultiLevelOneFragment
+import it.sapienza.solveit.ui.levels.multi.MultiLevelThreeFragment
 import it.sapienza.solveit.ui.levels.single.SingleLevelOneFragment
 import it.sapienza.solveit.ui.models.Constants
 
@@ -34,7 +35,7 @@ class LevelsActivity : AppCompatActivity() {
                 .commit()
         } else{
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainerView, MultiLevelOneFragment())
+                .add(R.id.fragmentContainerView, MultiLevelThreeFragment())
                 .commit()
         }
 
