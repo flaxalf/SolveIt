@@ -1,27 +1,26 @@
 package it.sapienza.solveit.ui.levels.multi
 
-import android.animation.ValueAnimator
 import android.app.Activity
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
+import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.lang.Thread.sleep
 
 class MultiLevelThreeFragment : Fragment() {
     private val winnerDialog = CustomDialogFragment()
 
     private lateinit var timerTV: TextView
+    private lateinit var bombIV: ImageView
+    private lateinit var clockIV: ImageView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,13 @@ class MultiLevelThreeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_multi_level_three, container, false)
+
         timerTV = view.findViewById(R.id.timerTV)
+        bombIV = view.findViewById(R.id.bombIV)
+        clockIV = view.findViewById(R.id.clockIV)
+
+        bombIV.setImageDrawable(Drawable.createFromStream(activity?.assets?.open("bomb.png"), null))
+        clockIV.setImageDrawable(Drawable.createFromStream(activity?.assets?.open("clock.png"), null))
 
         startTimer()
 
@@ -56,22 +61,16 @@ class MultiLevelThreeFragment : Fragment() {
         winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)
     }
 
-
-    private fun startTimer() {
-        val animator : ValueAnimator = ValueAnimator.ofInt(60, 0)
-        animator.duration = 60000 //60 secs in ms
-        animator.repeatCount = ValueAnimator.INFINITE
-        animator.addUpdateListener { animation ->
-            timerTV.text = animation.animatedValue.toString()
-            if(timerTV.text == "0"){
-                //TODO: restart level
-                Log.d("timer", "restart level")
-                animator.pause()
-                sleep(1000)
-                animator.start()
-
+    fun startTimer() {
+        var counter = 60
+        object : CountDownTimer(60000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                timerTV.text = counter.toString()
+                counter--
             }
-        }
-        animator.start()
+            override fun onFinish() {
+                timerTV.text = "BOOM"
+            }
+        }.start()
     }
 }

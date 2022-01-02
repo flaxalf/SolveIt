@@ -17,19 +17,31 @@
             android:layout_height="18dp"
             android:layout_marginStart="2dp"
             android:fontFamily="@font/allerta_stencil"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
-            app:layout_constraintTop_toTopOf="@+id/imageView3"
+            app:layout_constraintBottom_toBottomOf="@+id/clockIV"
+            app:layout_constraintStart_toEndOf="@+id/clockIV"
+            app:layout_constraintTop_toTopOf="@+id/clockIV"
             app:layout_constraintVertical_bias="0.48000002" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/clockIV"
             android:layout_width="59dp"
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:src="@mipmap/clock"
+            tools:src="@tools:sample/avatars"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/bombIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
