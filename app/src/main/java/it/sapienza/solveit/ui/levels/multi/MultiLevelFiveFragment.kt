@@ -1,6 +1,5 @@
 package it.sapienza.solveit.ui.levels.multi
 
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -69,23 +68,12 @@ class MultiLevelFiveFragment : Fragment() {
                 }
             }
         }
-        val animator : ValueAnimator
-
-        if(counter <= goal) {
-             animator = ValueAnimator.ofInt(counter - 1, counter)
-        } else{
-            animator = ValueAnimator.ofInt(counter - 1, 0)
+        if(counter > goal) {
             counter = 0
         }
-        animator.duration = 1
-        animator.repeatCount = 0
-        animator.addUpdateListener { animation ->
-            counterTV.text = animation.animatedValue.toString()
-        }
-        animator.start()
+        counterTV.text = counter.toString()
+        
     }
-
-
 
 
     private fun nextLevel(){
