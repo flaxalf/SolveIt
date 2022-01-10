@@ -46,9 +46,8 @@ class CustomDialogFragment: DialogFragment() {
                     0 -> MultiLevelOneFragment()
                     1 -> MultiLevelTwoFragment()
                     2 -> MultiLevelThreeFragment()
-                    3 -> MultiLevelFourFragment()
-                    4 -> MultiLevelFiveFragment()
-                    5 -> null
+                    3 -> MultiLevelFiveFragment()
+                    4 -> null
                     else -> null
                 }
             }

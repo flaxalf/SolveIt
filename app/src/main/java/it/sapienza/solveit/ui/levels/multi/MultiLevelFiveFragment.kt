@@ -78,7 +78,7 @@ class MultiLevelFiveFragment : Fragment() {
 
     private fun nextLevel(){
         val bundle = Bundle()
-        bundle.putInt(Constants.LEVEL, 5) // Say to the dialog that fragment 5 called it
+        bundle.putInt(Constants.LEVEL, 4) // Say to the dialog that fragment 4 called it
         bundle.putBoolean(Constants.IS_SINGLE, false)
         winnerDialog.arguments = bundle
         winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)
