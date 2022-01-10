@@ -22,7 +22,6 @@ class MultiLevelFiveFragment : Fragment() {
     private val winnerDialog = CustomDialogFragment()
     private lateinit var counterTV: TextView
     private lateinit var buttonIV6: ImageView
-    private lateinit var counterIV: ImageView
 
     private var counter = 0
     private var goal = 100
@@ -46,11 +45,6 @@ class MultiLevelFiveFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_multi_level_five, container, false)
         counterTV = view.findViewById(R.id.counterTV)
         buttonIV6 = view.findViewById(R.id.buttonIV6)
-        counterIV = view.findViewById(R.id.counterIV)
-
-        counterIV.setImageDrawable(Drawable.createFromStream(activity?.assets?.open("counter.png"), null))
-        counterIV.scaleX = 5.5f
-        counterIV.scaleY = 5.5f
 
         buttonIV6.setOnClickListener {
             performAnimation()
