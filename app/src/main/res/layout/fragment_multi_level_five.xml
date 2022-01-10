@@ -11,15 +11,15 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/counterIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/counter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.304" />
+            app:layout_constraintVertical_bias="0.304"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/counterTV"
@@ -28,11 +28,11 @@
             android:fontFamily="@font/allerta_stencil"
             android:text="0"
             android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintBottom_toBottomOf="@+id/counterIV"
+            app:layout_constraintEnd_toEndOf="@+id/counterIV"
             app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="@+id/counterIV"
+            app:layout_constraintTop_toTopOf="@+id/counterIV"
             app:layout_constraintVertical_bias="0.497" />
 
 
@@ -42,9 +42,9 @@
             android:layout_height="60dp"
             android:src="@drawable/ic_red_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imageView2"
-            app:layout_constraintStart_toStartOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            app:layout_constraintEnd_toEndOf="@+id/counterIV"
+            app:layout_constraintStart_toStartOf="@+id/counterIV"
+            app:layout_constraintTop_toBottomOf="@+id/counterIV" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
