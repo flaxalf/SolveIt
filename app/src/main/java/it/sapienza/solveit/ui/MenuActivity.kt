@@ -25,10 +25,6 @@ class MenuActivity : AppCompatActivity() {
         animationDrawable.setExitFadeDuration(4000)
         animationDrawable.start()
 
-        val logoIV = findViewById<ImageView>(R.id.logoIV)
-        assets.open("LOGO SOLVE IT.png")
-        logoIV.setImageDrawable(Drawable.createFromStream(assets.open("LOGO SOLVE IT.png"), null))
-
         val animZoom = AnimationUtils.loadAnimation(applicationContext, R.anim.zoom)
         val btnSingle = findViewById<Button>(R.id.buttonSingle)
         val btnMulti = findViewById<Button>(R.id.buttonMulti)

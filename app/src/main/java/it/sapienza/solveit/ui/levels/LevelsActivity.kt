@@ -36,7 +36,7 @@ class LevelsActivity : AppCompatActivity() {
                 .commit()
         } else{
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainerView, MultiLevelFiveFragment())
+                .add(R.id.fragmentContainerView, MultiLevelThreeFragment())
                 .commit()
         }
 

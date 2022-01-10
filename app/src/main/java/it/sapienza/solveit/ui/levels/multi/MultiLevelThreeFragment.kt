@@ -18,9 +18,6 @@ class MultiLevelThreeFragment : Fragment() {
     private val winnerDialog = CustomDialogFragment()
 
     private lateinit var timerTV: TextView
-    private lateinit var bombIV: ImageView
-    private lateinit var clockIV: ImageView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +38,6 @@ class MultiLevelThreeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_multi_level_three, container, false)
 
         timerTV = view.findViewById(R.id.timerTV)
-        bombIV = view.findViewById(R.id.bombIV)
-        clockIV = view.findViewById(R.id.clockIV)
-
-        bombIV.setImageDrawable(Drawable.createFromStream(activity?.assets?.open("bomb.png"), null))
-        clockIV.setImageDrawable(Drawable.createFromStream(activity?.assets?.open("clock.png"), null))
 
         startTimer()
 
