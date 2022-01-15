@@ -1,11 +1,12 @@
 package it.sapienza.solveit.ui.auth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import it.sapienza.solveit.R
 import it.sapienza.solveit.databinding.ActivityLoginBinding
+import it.sapienza.solveit.ui.MenuActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,17 +22,27 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.LoginButton.setOnClickListener {
-            val email : String = binding.EmailLogin.text.toString()
-            val password : String = binding.PasswordLogin.text.toString()
+            val email : String = binding.EmailLogin.text.toString().trim()
+            val password : String = binding.PasswordLogin.text.toString().trim()
+
+            if (email.length == 0) {
+                binding.EmailLogin.setError("Please enter an E-mail!")
+                return@setOnClickListener
+            }
+            if (password.length == 0) {
+                binding.PasswordLogin.setError("Please enter a password!")
+                return@setOnClickListener
+            }
 
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if(it.isSuccessful){
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-                    //TODO: go to the main menu
+                    //Go to the main menu
+                    val menuIntent = Intent(this@LoginActivity, MenuActivity::class.java)
+                    startActivity(menuIntent)
 
                 } else{
                     Toast.makeText(this, it.exception?.localizedMessage, Toast.LENGTH_SHORT).show()
-                    //TODO: decide if a toast message is enough or if a custom page is needed
                 }
             }
         }

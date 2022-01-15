@@ -2,46 +2,45 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout"
+    android:id="@+id/initLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_list"
-    android:textAlignment="textEnd"
-    tools:context=".ui.MenuActivity">
+    tools:context=".ui.InitActivity">
 
     <ImageView
-        android:id="@+id/logoIV"
+        android:id="@+id/titleIV"
         android:layout_width="274dp"
-        android:layout_height="113dp"
+        android:layout_height="106dp"
+        android:layout_marginTop="128dp"
         android:src="@drawable/title_solve_it"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSingle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonSingle"
+        android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_oval_shape"
         android:fontFamily="@font/allerta_stencil"
-        android:text="Single player"
+        android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="@+id/titleIV"
+        app:layout_constraintTop_toBottomOf="@+id/titleIV" />
 
     <Button
-        android:id="@+id/buttonMulti"
+        android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_oval_shape"
         android:fontFamily="@font/allerta_stencil"
-        android:text="Multi player"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/buttonSingle"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="@+id/buttonSingle"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSingle"
-        app:layout_constraintVertical_bias="0.086" />
+        android:text="Register"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonLogin"
+        app:layout_constraintEnd_toEndOf="@+id/titleIV"
+        app:layout_constraintHorizontal_bias="0.88"
+        app:layout_constraintStart_toEndOf="@+id/buttonLogin"
+        app:layout_constraintTop_toTopOf="@+id/buttonLogin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

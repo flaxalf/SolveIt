@@ -6,17 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".ui.auth.LoginActivity">
 
+    <TextView
+        android:id="@+id/loginTV"
+        android:layout_width="118dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="Login"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/roundLoginView"
+        android:layout_width="0dp"
+        android:layout_height="370dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/rounded_box"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginTV" />
+
+    <TextView
+        android:id="@+id/usernameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="E-mail"
+        app:layout_constraintEnd_toEndOf="@+id/roundLoginView"
+        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintStart_toStartOf="@+id/roundLoginView"
+        app:layout_constraintTop_toTopOf="@+id/roundLoginView" />
+
+    <TextView
+        android:id="@+id/passwordTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="Password"
+        app:layout_constraintEnd_toEndOf="@+id/roundLoginView"
+        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintStart_toStartOf="@+id/roundLoginView"
+        app:layout_constraintTop_toBottomOf="@+id/EmailLogin" />
+
     <EditText
         android:id="@+id/EmailLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="296dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameTV"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
@@ -30,17 +82,18 @@
         app:layout_constraintEnd_toEndOf="@+id/EmailLogin"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/EmailLogin"
-        app:layout_constraintTop_toBottomOf="@+id/EmailLogin"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTV"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/LoginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/button_oval_shape"
+        android:text="Login"
+        app:layout_constraintBottom_toBottomOf="@+id/roundLoginView"
         app:layout_constraintEnd_toEndOf="@+id/PasswordLogin"
         app:layout_constraintStart_toStartOf="@+id/PasswordLogin"
-        app:layout_constraintTop_toBottomOf="@+id/PasswordLogin"
-        app:layout_constraintVertical_bias="0.149" />
+        app:layout_constraintTop_toBottomOf="@+id/PasswordLogin" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

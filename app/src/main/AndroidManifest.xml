@@ -10,17 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".ui.levels.WinActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.auth.LoginActivity"
-            android:exported="true"></activity>
-        <activity
-            android:name=".ui.auth.SignUpActivity"
-            android:exported="true"></activity>
-        <activity
-            android:name=".ui.MenuActivity"
-            android:exported="true">
+            android:name=".ui.InitActivity"
+            android:exported="true" >
 
             <!-- Copia e incolla questa intent-filter all'interno dell'acitivity iniziale -->
             <intent-filter>
@@ -30,8 +21,21 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.levels.WinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.auth.SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.MenuActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ui.levels.LevelsActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"

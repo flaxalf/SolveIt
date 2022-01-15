@@ -22,7 +22,7 @@ class SingleLevelFiveFragment : Fragment(), View.OnClickListener {
         // Dynamically change hint and level number on the activity textviews'
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.text = "Fire"
+        hint.text = "More wood, higher fire"
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
         textLevel.text = "Level 5"
     }
