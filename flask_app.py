@@ -1,9 +1,27 @@
 from flask import Flask,jsonify
 from flask import request
 from flask_restful import Resource, Api
+
 import string
 import random
 import time
+from time import gmtime
+from time import strftime
+
+from threading import Lock
+
+import mysql.connector
+
+
+def connectToDB():
+    return mysql.connector.connect(
+              host="CondivisoMobile.mysql.pythonanywhere-services.com",
+              user="CondivisoMobile",
+              password="DatabasePWD",
+              database="CondivisoMobile$default"
+            )
+
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -18,6 +36,9 @@ class matchInstance:
         self.timestamp = time.time()
         self.player1 = p1
         self.player2 = p2
+        self.lock = Lock()
+        self.resultRegistered = False
+        self.finishTime = None
 
 
 class matchingMulti(Resource):
@@ -37,11 +58,14 @@ class matchingMulti(Resource):
         user= request.args.get('user')
 
         if matchDict.get(id) is not None:
-            if user != matchDict[id].player1 and matchDict[id].player2 is None:
-                matchDict[id].player2 = user
-                reply_msg = {'POST':"OK",'PLAYER1': matchDict[id].player1}
+            matchingInstance = matchDict[id]
+            matchingInstance.lock.acquire()
+            if user != matchingInstance.player1 and matchingInstance.player2 is None:
+                matchingInstance.player2 = user
+                reply_msg = {'POST':"OK",'PLAYER1': matchingInstance.player1}
             else:
                 reply_msg = {'POST':"KO"}
+            matchingInstance.lock.release()
         else:
             reply_msg = {'POST':"KO"}
 
@@ -110,7 +134,7 @@ class levelOneMulti(Resource):
 api.add_resource(levelOneMulti,'/levelOneMulti')
 
 
-#map that contains key = match id and value = a levelOne instance
+#map that contains key = match id and value = a levelThree instance
 levelTwoDict = {}
 
 class levelTwoInstance:
@@ -118,6 +142,7 @@ class levelTwoInstance:
         self.id = id
         self.number1 = n1
         self.number2 = n2
+        self.lock = Lock()
 
     def isLevelPassed(self):
         if self.number1 == self.number2:
@@ -159,8 +184,9 @@ class levelTwoMulti(Resource):
             levelTwoDict[id] = levelTwoInstance(id)
 
         levelInstance = levelTwoDict[id]
-        #check if below we need locks, cause a call from a player modifies
-        #the value from the other player
+        #lock, so if a reset is needed, it will happen just one time, even if
+        #both users try to post at the same time
+        levelInstance.lock.acquire()
         if user == matchDict[id].player1:
             if levelInstance.number1 != 0:
                 #clean the level instance here, if someone posts a new number
@@ -176,44 +202,129 @@ class levelTwoMulti(Resource):
                 levelInstance.number1 = 0
             levelInstance.number2 = number
 
+        levelInstance.lock.release()
         return jsonify("POST: ok")
 
 api.add_resource(levelTwoMulti,'/levelTwoMulti')
 
 
+#map that contains key = match id and value = a levelThree instance
+levelThreeDict = {}
+
+class levelThreeInstance:
+    def __init__(self, id, c = 0, g = 10):
+        self.id = id
+        self.count = c
+        self.goal = g
+        self.lock = Lock()
+
+    def increaseCountByOne(self):
+        self.lock.acquire()
+
+        self.count += 1
+        if self.count > self.goal:
+            self.count = 0
+
+        self.lock.release()
+
+    def readCount(self):
+        self.lock.acquire()
+        val = self.count
+        self.lock.release()
+        return val
+
+
 class levelThreeMulti(Resource):
     def get(self):
         id = request.args.get('id')
-        reply_msg = {}
+        if levelThreeDict.get(id) is None:
+            levelThreeDict[id] = levelThreeInstance(id)
+
+        levelInstance = levelThreeDict[id]
+        reply_msg = {'count' : levelInstance.readCount()}
+
         return jsonify(reply_msg)
 
     def post(self):
         id = request.args.get('id')
-        return jsonify("POST: ok")
+        if levelThreeDict.get(id) is None:
+            levelThreeDict[id] = levelThreeInstance(id)
+
+        levelInstance = levelThreeDict[id]
+        levelInstance.increaseCountByOne()
+        reply_msg = {'POST' : 'ok', 'count' : levelInstance.readCount()}
+
+        return jsonify(reply_msg)
 
 api.add_resource(levelThreeMulti,'/levelThreeMulti')
 
 
 class endGameMulti(Resource):
     def get(self):
-        id = request.args.get('id')
+        #this get will not be used
         reply_msg = {}
         return jsonify(reply_msg)
 
     def post(self):
-        #TODO clean all the dicts here
+        now = time.time()
         id = request.args.get('id')
-        return jsonify("POST: ok")
+        if matchDict.get(id) is None:
+            return jsonify("POST: ko")
+
+        matchingInstance = matchDict[id]
+        reply_msg = {}
+        if not matchingInstance.resultRegistered:
+            squad = matchingInstance.player1 + ' + ' + matchingInstance.player2
+            timeDiff = round(now - matchingInstance.timestamp)
+            if timeDiff >= 3600: #db supports max 5 chars (mm:ss)
+                return jsonify("POST: ko")
+            timeFormatted = strftime("%M:%S", gmtime(timeDiff))
+
+            connection = connectToDB()
+            cursor = connection.cursor()
+            sql = "INSERT INTO leaderboard (squad, time) VALUES (%s, %s)"
+            val = (squad, timeFormatted)
+            cursor.execute(sql, val)
+
+            connection.commit()
+            cursor.close()
+            connection.close()
+            matchingInstance.resultRegistered = True
+            matchingInstance.finishTime = timeFormatted
+            reply_msg["time"] = timeFormatted
+        else:
+            reply_msg["time"] = matchingInstance.finishTime
+            matchDict.pop(id, None)
+            levelOneDict.pop(id, None)
+            levelTwoDict.pop(id, None)
+            levelThreeDict.pop(id, None)
+
+        reply_msg['POST'] = "ok"
+        return jsonify(reply_msg)
 
 api.add_resource(endGameMulti,'/endGameMulti')
 
 
 class leaderboard(Resource):
     def get(self):
+        connection = connectToDB()
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM leaderboard ORDER BY time ASC LIMIT 10")
+        result = cursor.fetchall()
+
         reply_msg = {}
+        count = 1
+        for x in result:
+            reply_msg[count] = [x[0], x[1]]
+            count += 1
+
+        cursor.close()
+        connection.close()
         return jsonify(reply_msg)
 
     def post(self):
+        #this post will not be used
         return jsonify("POST: ok")
 
 api.add_resource(leaderboard,'/leaderboard')
