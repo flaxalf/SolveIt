@@ -11,6 +11,7 @@ import it.sapienza.solveit.ui.levels.LevelsActivity
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.AnimationDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
+import it.sapienza.solveit.ui.levels.LeaderboardActivity
 import it.sapienza.solveit.ui.models.Constants
 
 
@@ -28,8 +29,10 @@ class MenuActivity : AppCompatActivity() {
         val animZoom = AnimationUtils.loadAnimation(applicationContext, R.anim.zoom)
         val btnSingle = findViewById<Button>(R.id.buttonSingle)
         val btnMulti = findViewById<Button>(R.id.buttonMulti)
+        val btnLeaderboard = findViewById<Button>(R.id.buttonLeaderboard)
 
         val newIntent = Intent(this@MenuActivity, LevelsActivity::class.java)
+        val leaderboardIntent = Intent(this@MenuActivity, LeaderboardActivity::class.java)
         val bundle = Bundle()
 
         btnSingle.setOnClickListener{
@@ -44,6 +47,11 @@ class MenuActivity : AppCompatActivity() {
             bundle.putBoolean(Constants.IS_SINGLE, false)
             newIntent.putExtras(bundle)
             startActivity(newIntent)
+        }
+
+        btnLeaderboard.setOnClickListener{
+            btnLeaderboard.startAnimation(animZoom)
+            startActivity(leaderboardIntent)
         }
 
     }
