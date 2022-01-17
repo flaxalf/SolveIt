@@ -1,68 +1,86 @@
 package it.sapienza.solveit.ui.levels.multi
 
 import android.app.Activity
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import it.sapienza.solveit.R
+import android.widget.TextView
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 
 class MultiLevelThreeFragment : Fragment() {
     private val winnerDialog = CustomDialogFragment()
+    private lateinit var counterTV: TextView
+    private lateinit var buttonIV6: ImageView
 
-    private lateinit var timerTV: TextView
+    private var counter = 0
+    private var goal = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Dynamically change hint and level number on the activity textviews'
+        // Dynamically change hint and level number on the activity textviews
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.text = "Defuse the bomb!"
+        hint.text = "Reach exactly $goal"
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
-        textLevel.text = "Level 3"
+        textLevel.text = "Level 5"
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_multi_level_three, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_multi_level_three, container, false)
+        counterTV = view.findViewById(R.id.counterTV)
+        buttonIV6 = view.findViewById(R.id.buttonIV6)
 
-        timerTV = view.findViewById(R.id.timerTV)
+        buttonIV6.setOnClickListener {
+            performAnimation()
+        }
 
-        startTimer()
 
         return view
     }
 
 
+    private fun performAnimation() {
+        counter++
+
+        if(counter == goal) {
+            GlobalScope.launch {
+                async {
+                    delay(5000L)
+                    if(counter == goal){
+                        nextLevel()
+                    }
+                }
+            }
+        }
+        if(counter > goal) {
+            counter = 0
+        }
+        counterTV.text = counter.toString()
+        
+    }
+
+
     private fun nextLevel(){
         val bundle = Bundle()
-        bundle.putInt(Constants.LEVEL, 3) // Say to the dialog that fragment 1 called it
+        bundle.putInt(Constants.LEVEL, 4) // Say to the dialog that fragment 4 called it
         bundle.putBoolean(Constants.IS_SINGLE, false)
         winnerDialog.arguments = bundle
         winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)
     }
 
-    fun startTimer() {
-        var counter = 60
-        object : CountDownTimer(60000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                timerTV.text = counter.toString()
-                counter--
-            }
-            override fun onFinish() {
-                timerTV.text = "BOOM"
-            }
-        }.start()
-    }
 }

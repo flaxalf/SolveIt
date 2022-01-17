@@ -6,92 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".ui.levels.multi.MultiLevelThreeFragment">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/timerTV"
-            android:layout_width="46dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="2dp"
-            android:fontFamily="@font/allerta_stencil"
-            app:layout_constraintBottom_toBottomOf="@+id/clockIV"
-            app:layout_constraintStart_toEndOf="@+id/clockIV"
-            app:layout_constraintTop_toTopOf="@+id/clockIV"
-            app:layout_constraintVertical_bias="0.48000002" />
-
         <ImageView
-            android:id="@+id/clockIV"
-            android:layout_width="59dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/clock"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/bombIV"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginBottom="64dp"
-            android:src="@drawable/bomb"
+            android:id="@+id/counterIV"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.304"
+            android:src="@drawable/counter" />
 
-        <EditText
-            android:id="@+id/firstDigitET"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="64dp"
-            android:ems="10"
-            android:inputType="number"
-            app:layout_constraintStart_toStartOf="@+id/bombIV"
-            app:layout_constraintTop_toBottomOf="@+id/bombIV"
-            tools:ignore="SpeakableTextPresentCheck" />
+        <TextView
+            android:id="@+id/counterTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/allerta_stencil"
+            android:text="0"
+            android:textSize="34sp"
+            app:layout_constraintBottom_toBottomOf="@+id/counterIV"
+            app:layout_constraintEnd_toEndOf="@+id/counterIV"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/counterIV"
+            app:layout_constraintTop_toTopOf="@+id/counterIV"
+            app:layout_constraintVertical_bias="0.497" />
 
-        <EditText
-            android:id="@+id/secondDigitET"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:ems="10"
-            android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="@+id/firstDigitET"
-            app:layout_constraintStart_toEndOf="@+id/firstDigitET"
-            app:layout_constraintTop_toTopOf="@+id/firstDigitET"
-            app:layout_constraintVertical_bias="0.0"
-            tools:ignore="SpeakableTextPresentCheck" />
 
-        <EditText
-            android:id="@+id/thirdDigitET"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:ems="10"
-            android:enabled="false"
-            android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="@+id/secondDigitET"
-            app:layout_constraintStart_toEndOf="@+id/secondDigitET"
-            app:layout_constraintTop_toTopOf="@+id/secondDigitET"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <EditText
-            android:id="@+id/fourthDigitET"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:ems="10"
-            android:enabled="false"
-            android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="@+id/thirdDigitET"
-            app:layout_constraintEnd_toEndOf="@+id/bombIV"
-            app:layout_constraintStart_toEndOf="@+id/thirdDigitET"
-            app:layout_constraintTop_toTopOf="@+id/thirdDigitET"
-            tools:ignore="SpeakableTextPresentCheck" />
+        <ImageView
+            android:id="@+id/buttonIV6"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_red_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/counterIV"
+            app:layout_constraintStart_toStartOf="@+id/counterIV"
+            app:layout_constraintTop_toBottomOf="@+id/counterIV" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
