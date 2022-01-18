@@ -13,4 +13,16 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_single_level_one">Round rocks? Maybe one can rotate...</string>
+    <string name="text_level_one">Level 1</string>
+    <string name="hint_multi_level_one">Find the correct button and hold it</string>
+    <string name="text_level_five">Level 5</string>
+    <string name="hint_multi_level_two">Guess the same number!</string>
+    <string name="text_level_two">Level 2</string>
+    <string name="hint_single_level_five">More wood, higher fire</string>
+    <string name="hint_single_level_four">Inflate it</string>
+    <string name="text_level_four">Level 4</string>
+    <string name="hint_single_level_three">A light stick!</string>
+    <string name="text_level_three">Level 3</string>
+    <string name="hint_single_level_two">It\'s time to sleep</string>
 </resources>

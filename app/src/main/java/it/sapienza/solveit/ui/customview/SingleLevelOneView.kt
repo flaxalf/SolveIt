@@ -39,9 +39,9 @@ class SingleLevelOneView @JvmOverloads constructor(
         // Dynamically change hint and level number on the activity textviews'
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.text = "Round rocks? Maybe one can rotate..."
+        hint.text = activity.getString(R.string.hint_single_level_one)
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
-        textLevel.text = "Level 1"
+        textLevel.text = context.getString(R.string.text_level_one)
 
         // Retrieve parent fragment
         try {
@@ -115,12 +115,10 @@ class SingleLevelOneView @JvmOverloads constructor(
             SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
             SensorManager.getOrientation(rotationMatrix, orientationValues)
 
-            val azimuth = Math.toDegrees(orientationValues[0].toDouble())
+            //val azimuth = Math.toDegrees(orientationValues[0].toDouble())
             val pitch = Math.toDegrees(orientationValues[1].toDouble())
             val roll = Math.toDegrees(orientationValues[2].toDouble())
             val zValue = event.values[2]
-
-            //Log.d("angles", "roll: $roll , pitch: $pitch , zValue: $zValue")
 
             if (pitch > -50 && pitch < -3 && abs(zValue) > 0.01  && roll < 0 && !completed) {
                 counter += 1
@@ -134,32 +132,9 @@ class SingleLevelOneView @JvmOverloads constructor(
                     sensorManager.unregisterListener(this)
                 }
 
-
                 // Redraw scene
                 invalidate()
             }
         }
-
-
-
-        /*val zValue = event?.values?.get(2)
-        if (zValue != null) {
-            if (Math.abs(zValue) < 0.2 && !rotating) {
-                if (counter >= 80) {
-                    rotating = true
-                    // Unregister the listener when the animation is executed
-                    sensorManager.unregisterListener(this)
-                }
-                counter += 1
-
-                // Activating the button on the fragment for the win dialog
-                parentFrag!!.view?.let { parentFrag!!.activateButton(it) }
-
-                // Redraw scene
-                invalidate()
-            }
-        }
-
-         */
     }
 }

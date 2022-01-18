@@ -23,9 +23,9 @@ class SingleLevelTwoFragment : Fragment(), View.OnClickListener {
         // Dynamically change hint and level number on the activity textviews'
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.text = "It's time to sleep"
+        hint.text = getString(R.string.hint_single_level_two)
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
-        textLevel.text = "Level 2"
+        textLevel.text = getString(R.string.text_level_two)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {

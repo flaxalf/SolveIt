@@ -33,7 +33,7 @@ class MultiLevelThreeFragment : Fragment() {
         val hint = activity.findViewById<TextView>(R.id.hintTV)
         hint.text = "Reach exactly $goal"
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
-        textLevel.text = "Level 5"
+        textLevel.text = getString(R.string.text_level_three)
     }
 
     override fun onCreateView(

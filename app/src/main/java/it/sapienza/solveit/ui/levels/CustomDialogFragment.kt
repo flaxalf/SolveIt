@@ -30,7 +30,7 @@ class CustomDialogFragment: DialogFragment() {
 
         nextFragmentButton = rootView.findViewById(R.id.nextLevelButton) as Button
         nextFragmentButton.setOnClickListener {
-            var levelFragment : Fragment?
+            val levelFragment : Fragment?
             if(isSingle) {
                  levelFragment = when (infoLevel) {
                     0 -> SingleLevelOneFragment()

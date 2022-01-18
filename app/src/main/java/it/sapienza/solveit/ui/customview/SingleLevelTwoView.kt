@@ -57,18 +57,6 @@ class SingleLevelTwoView @JvmOverloads constructor(
             sensorManager.registerListener(this, grav, SensorManager.SENSOR_DELAY_UI)}
     }
 
-    /*
-    override fun performClick(): Boolean {
-        // Give default click listeners priority and perform accessibility/autofill events.
-        if (super.performClick()) return true
-
-        counter++
-        // Redraw the view.
-        invalidate()
-        return true
-    }
-    */
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 

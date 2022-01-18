@@ -9,7 +9,7 @@ import android.widget.TextView
 import it.sapienza.solveit.R
 import kotlin.collections.ArrayList
 
-class LeaderboardAdapter(var context: Context, var personNames: ArrayList<*>) : RecyclerView.Adapter<LeaderboardAdapter.ViewHolder>() {
+class LeaderboardAdapter(var context: Context, private var personNames: ArrayList<*>) : RecyclerView.Adapter<LeaderboardAdapter.ViewHolder>() {
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).

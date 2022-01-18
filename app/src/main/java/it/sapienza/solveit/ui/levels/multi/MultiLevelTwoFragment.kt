@@ -28,9 +28,9 @@ class MultiLevelTwoFragment : Fragment() {
         // Dynamically change hint and level number on the activity textviews'
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.text = "Guess the same number!"
+        hint.text = getString(R.string.hint_multi_level_two)
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
-        textLevel.text = "Level 2"
+        textLevel.text = getString(R.string.text_level_two)
     }
 
     override fun onCreateView(

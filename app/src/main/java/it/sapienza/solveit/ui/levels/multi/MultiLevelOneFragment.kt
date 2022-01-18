@@ -36,9 +36,9 @@ class MultiLevelOneFragment : Fragment() {
         // Dynamically change hint and level number on the activity textviews'
         val activity = context as Activity
         val hint = activity.findViewById<TextView>(R.id.hintTV)
-        hint.text = "Find the correct button and hold it"
+        hint.text = getString(R.string.hint_multi_level_one)
         val textLevel = activity.findViewById<TextView>(R.id.levelNumberTV)
-        textLevel.text = "Level 1"
+        textLevel.text = getString(R.string.text_level_one)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -51,7 +51,7 @@ class MultiLevelOneFragment : Fragment() {
 
         val chosenButton  = chooseRandomButton(view)
 
-        chosenButton.setOnTouchListener { v, event ->
+        chosenButton.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 // Pressed
                 chosenButton.setBackgroundColor(Color.GREEN)

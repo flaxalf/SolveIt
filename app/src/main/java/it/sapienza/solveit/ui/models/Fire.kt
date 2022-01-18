@@ -3,8 +3,9 @@ package it.sapienza.solveit.ui.models
 import android.graphics.Bitmap
 import android.graphics.Rect
 
-class Fire(private var image: Bitmap,
-           private var initialX: Float, private var initialY: Float) {
+class Fire(
+    image: Bitmap,
+    initialX: Float, initialY: Float) {
 
     var active = true
     var isTouched = false

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import it.sapienza.solveit.databinding.ActivitySignUpBinding
-import it.sapienza.solveit.ui.MenuActivity
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -24,12 +23,12 @@ class SignUpActivity : AppCompatActivity() {
             val email : String = binding.EmailSignUp.text.toString()
             val password : String = binding.PasswordSignUp.text.toString()
 
-            if (email.length == 0) {
-                binding.EmailSignUp.setError("Please enter an E-mail!")
+            if (email.isEmpty()) {
+                binding.EmailSignUp.error = "Please enter an E-mail!"
                 return@setOnClickListener
             }
-            if (password.length == 0) {
-                binding.PasswordSignUp.setError("Please enter a password!")
+            if (password.isEmpty()) {
+                binding.PasswordSignUp.error = "Please enter a password!"
                 return@setOnClickListener
             }
 
