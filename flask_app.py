@@ -49,6 +49,10 @@ class matchingMulti(Resource):
             #first call of the host request
             id = ''.join(random.choice(string.ascii_uppercase
                         + string.digits) for _ in range(8))
+            while matchDict.get(id) is not None:
+                id = ''.join(random.choice(string.ascii_uppercase
+                        + string.digits) for _ in range(8))
+
             user = request.args.get('user')
             match = matchInstance(id, user)
             matchDict[id] = match

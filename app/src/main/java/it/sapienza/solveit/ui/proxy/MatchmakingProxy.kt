@@ -1,24 +1,28 @@
 package it.sapienza.solveit.ui.proxy
 
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import it.sapienza.solveit.ui.models.Constants
 import org.json.JSONObject
 import java.io.InputStreamReader
 import java.net.URL
+import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
-class MatchmakingProxy (val username: String) {
-/*
-    inner class MyTimer:TimerTask() {
+class MatchmakingProxy (private val username: String) {
+    private val address = Constants.CLOUD_ADDRESS + "matchingMulti"
+
+
+    /*
+    lateinit var timer : Timer
+    inner class MyTimer: TimerTask() {
         override fun run() {
-            val reply = doPoll()
+            val reply = waitSecondPlayer()
             callback(reply["lat"].toString(),reply["lon"].toString())
             //Log.i("POLL",reply["lat"].toString())
         }
 
     }
-    lateinit var timer : Timer
+
     fun start(){
         timer=Timer("poll", true)
         timer.scheduleAtFixedRate(MyTimer(),0,howOften)
@@ -27,15 +31,9 @@ class MatchmakingProxy (val username: String) {
         timer.cancel()
     }
 
- */
-    private val address = Constants.CLOUD_ADDRESS + "matchingMulti"
-
-    init {
-
-    }
-
+    */
     fun hostMatch(): String {
-        val url = URL(address+"?user=$username")
+        val url = URL("$address?user=$username")
         val conn = url.openConnection() as HttpsURLConnection
         try {
             //Log.i("POLL", "ok")
@@ -49,4 +47,36 @@ class MatchmakingProxy (val username: String) {
             return ""
         }
     }
+
+    fun waitSecondPlayer(id : String): JSONObject {
+        val url = URL("$address?id=$id")
+        val conn = url.openConnection() as HttpsURLConnection
+        try {
+            //Log.i("POLL", "ok")
+            conn.run {
+                requestMethod = "GET"
+                return JSONObject(InputStreamReader(inputStream).readText())
+            }
+        } catch (e: Exception) {
+            Log.v("HOST", e.toString())
+            return JSONObject()
+        }
+    }
+
+    fun joinMatch(id : String): JSONObject {
+        val url = URL("$address?user=$username&id=$id")
+        val conn = url.openConnection() as HttpsURLConnection
+        try {
+            //Log.i("POLL", "ok")
+            conn.run {
+                requestMethod = "POST"
+                return JSONObject(InputStreamReader(inputStream).readText())
+            }
+        } catch (e: Exception) {
+            Log.v("HOST", e.toString())
+            return JSONObject()
+        }
+    }
+
+
 }
