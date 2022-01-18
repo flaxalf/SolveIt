@@ -46,7 +46,6 @@ class CustomDialogFragment: DialogFragment() {
                     0 -> MultiLevelOneFragment()
                     1 -> MultiLevelTwoFragment()
                     2 -> MultiLevelThreeFragment()
-                    3 -> MultiLevelThreeFragment()
                     4 -> null
                     else -> null
                 }
@@ -59,6 +58,9 @@ class CustomDialogFragment: DialogFragment() {
                 startActivity(Intent(activity, WinActivity::class.java))
             }
         }
+
+        this.isCancelable = false
+
         return rootView
     }
 }
