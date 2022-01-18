@@ -1,7 +1,6 @@
 from flask import Flask,jsonify
 from flask import request
 from flask_restful import Resource, Api
-
 import string
 import random
 import time
@@ -33,27 +32,44 @@ matchDict = {}
 class matchInstance:
     def __init__(self, id, p1 = None, p2 = None):
         self.id = id
-        self.timestamp = time.time()
         self.player1 = p1
         self.player2 = p2
         self.lock = Lock()
+        self.timestamp = None
         self.resultRegistered = False
         self.finishTime = None
 
 
 class matchingMulti(Resource):
     def get(self):
-        global matchDict
-        id = ''.join(random.choice(string.ascii_uppercase
-                    + string.digits) for _ in range(8))
-        user = request.args.get('user')
-        match = matchInstance(id, user)
-        matchDict[id] = match
-        reply_msg = {'id' : id}
+        id = request.args.get('id')
+
+        reply_msg = {}
+        if id is None:
+            #first call of the host request
+            id = ''.join(random.choice(string.ascii_uppercase
+                        + string.digits) for _ in range(8))
+            user = request.args.get('user')
+            match = matchInstance(id, user)
+            matchDict[id] = match
+            reply_msg['id'] = id
+        else:
+            #the player that is hosting is waiting for the second player
+            if matchDict.get(id) is None:
+                reply_msg['matching'] = 'error'
+            else:
+                matchingInstance = matchDict[id]
+                if matchingInstance.player2 is not None:
+                    matchingInstance.timestamp = time.time()
+                    reply_msg['matching'] = 'start'
+                    reply_msg['PLAYER2'] = matchingInstance.player2
+
+                else:
+                    reply_msg['matching'] = 'wait'
+
         return jsonify(reply_msg)
 
     def post(self):
-        global matchDict
         id = request.args.get('id')
         user= request.args.get('user')
 
@@ -87,7 +103,7 @@ class levelOneInstance:
         self.right2 = False
 
     def isLevelPassed(self):
-        if self.right1 == True and self.right2 == True:
+        if self.right1 and self.right2:
             return True
         return False
 
@@ -127,9 +143,9 @@ class levelOneMulti(Resource):
             levelInstance.right1 = rightButton.lower() == "true"
         else:
             levelInstance.button2 = buttonPressed
-            levelInstance.right2 = rightButton == "true"
+            levelInstance.right2 = rightButton.lower() == "true"
 
-        return jsonify("POST: ok")
+        return jsonify("POST: OK")
 
 api.add_resource(levelOneMulti,'/levelOneMulti')
 
@@ -203,7 +219,7 @@ class levelTwoMulti(Resource):
             levelInstance.number2 = number
 
         levelInstance.lock.release()
-        return jsonify("POST: ok")
+        return jsonify("POST: OK")
 
 api.add_resource(levelTwoMulti,'/levelTwoMulti')
 
@@ -252,7 +268,7 @@ class levelThreeMulti(Resource):
 
         levelInstance = levelThreeDict[id]
         levelInstance.increaseCountByOne()
-        reply_msg = {'POST' : 'ok', 'count' : levelInstance.readCount()}
+        reply_msg = {'POST' : 'OK', 'count' : levelInstance.readCount()}
 
         return jsonify(reply_msg)
 
@@ -269,15 +285,16 @@ class endGameMulti(Resource):
         now = time.time()
         id = request.args.get('id')
         if matchDict.get(id) is None:
-            return jsonify("POST: ko")
+            return jsonify("POST: KO")
 
         matchingInstance = matchDict[id]
         reply_msg = {}
+        matchingInstance.lock.acquire()
         if not matchingInstance.resultRegistered:
-            squad = matchingInstance.player1 + ' + ' + matchingInstance.player2
+            squad = matchingInstance.player1 + ' & ' + matchingInstance.player2
             timeDiff = round(now - matchingInstance.timestamp)
             if timeDiff >= 3600: #db supports max 5 chars (mm:ss)
-                return jsonify("POST: ko")
+                return jsonify("POST: KO")
             timeFormatted = strftime("%M:%S", gmtime(timeDiff))
 
             connection = connectToDB()
@@ -299,7 +316,8 @@ class endGameMulti(Resource):
             levelTwoDict.pop(id, None)
             levelThreeDict.pop(id, None)
 
-        reply_msg['POST'] = "ok"
+        matchingInstance.lock.release()
+        reply_msg['POST'] = "OK"
         return jsonify(reply_msg)
 
 api.add_resource(endGameMulti,'/endGameMulti')
@@ -310,7 +328,7 @@ class leaderboard(Resource):
         connection = connectToDB()
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM leaderboard ORDER BY time ASC LIMIT 10")
+        cursor.execute("SELECT * FROM leaderboard ORDER BY time ASC")
         result = cursor.fetchall()
 
         reply_msg = {}
@@ -325,7 +343,7 @@ class leaderboard(Resource):
 
     def post(self):
         #this post will not be used
-        return jsonify("POST: ok")
+        return jsonify("POST: OK")
 
 api.add_resource(leaderboard,'/leaderboard')
 
