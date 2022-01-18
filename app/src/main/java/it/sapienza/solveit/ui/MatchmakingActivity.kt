@@ -1,14 +1,19 @@
 package it.sapienza.solveit.ui
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
+import android.util.Log
+import android.widget.*
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.LevelsActivity
 import it.sapienza.solveit.ui.models.Constants
+import it.sapienza.solveit.ui.proxy.MatchmakingProxy
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MatchmakingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,15 +34,31 @@ class MatchmakingActivity : AppCompatActivity() {
         hostBtn.setOnClickListener {
             // TODO: rest api for matchmaking
             // Get the username and send to the cloud
-            /*
+
             val sharedPref = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
             val username = sharedPref.getString(Constants.USERNAME, "Unrecognized_username")
-            */
 
-            // Go to multi level activity
-            bundle.putBoolean(Constants.IS_SINGLE, false)
-            multiIntent.putExtras(bundle)
-            startActivity(multiIntent)
+            if (username != null && !username.isEmpty()) {
+                val proxy = MatchmakingProxy(username)
+                var id : String = ""
+                val idTV = findViewById<TextView>(R.id.idTV)
+
+                GlobalScope.launch {
+                    async {
+                        id = proxy.hostMatch()
+                        idTV.text = id
+                    }
+                }
+
+                /*// Go to multi level activity
+                bundle.putBoolean(Constants.IS_SINGLE, false)
+                multiIntent.putExtras(bundle)
+                startActivity(multiIntent)
+
+                 */
+            } else {
+                Toast.makeText(this, "System error", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Join match logic

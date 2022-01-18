@@ -17,5 +17,8 @@ class Constants {
         //preferences
         const val MY_PREFERENCES = "my_preferences"
         const val USERNAME = "username"
+
+        //proxy
+        const val CLOUD_ADDRESS ="https://CondivisoMobile.pythonanywhere.com/"
     }
 }

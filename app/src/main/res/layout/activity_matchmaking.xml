@@ -98,4 +98,16 @@
         app:layout_constraintStart_toStartOf="@+id/codeET"
         app:layout_constraintTop_toBottomOf="@+id/codeET" />
 
+    <TextView
+        android:id="@+id/idTV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:fontFamily="@font/allerta_stencil"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/hostTV"
+        app:layout_constraintEnd_toEndOf="@+id/hostBtn"
+        app:layout_constraintStart_toEndOf="@+id/hostTV"
+        app:layout_constraintTop_toTopOf="@+id/hostTV" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
