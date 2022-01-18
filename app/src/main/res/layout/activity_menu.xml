@@ -55,4 +55,17 @@
         app:layout_constraintEnd_toEndOf="@+id/buttonMulti"
         app:layout_constraintStart_toStartOf="@+id/buttonMulti"
         app:layout_constraintTop_toBottomOf="@+id/buttonMulti" />
+
+    <TextView
+        android:id="@+id/welcomeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="Welcome Name"
+        android:textColor="@color/light_blue_600"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/logoIV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

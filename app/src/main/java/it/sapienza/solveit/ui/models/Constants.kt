@@ -13,5 +13,9 @@ class Constants {
         const val LEVEL = "Level"
         const val IS_SINGLE = "IS_SINGLE"
         const val NEXT_LEVEL = "Next level"
+
+        //preferences
+        const val MY_PREFERENCES = "my_preferences"
+        const val USERNAME = "username"
     }
 }

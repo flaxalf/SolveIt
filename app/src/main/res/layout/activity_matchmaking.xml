@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MatchmakingActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/matchmakingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_blue"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/matchmakingHomeIV"
+        android:layout_width="69dp"
+        android:layout_height="54dp"
+        app:layout_constraintStart_toStartOf="@+id/matchmakingToolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_home" />
+
+    <TextView
+        android:id="@+id/matchmakingTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="Host or Join a match"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/matchmakingToolbar"
+        app:layout_constraintEnd_toEndOf="@+id/matchmakingToolbar"
+        app:layout_constraintStart_toEndOf="@+id/matchmakingHomeIV"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/hostTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="HOST"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.33"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/matchmakingToolbar"
+        app:layout_constraintVertical_bias="0.26999998" />
+
+    <Button
+        android:id="@+id/hostBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_oval_shape"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="Create a match"
+        app:layout_constraintStart_toStartOf="@+id/hostTV"
+        app:layout_constraintTop_toBottomOf="@+id/hostTV" />
+
+    <TextView
+        android:id="@+id/hostTV2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="JOIN"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/hostBtn"
+        app:layout_constraintTop_toBottomOf="@+id/hostBtn" />
+
+    <EditText
+        android:id="@+id/codeET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter code"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="@+id/hostTV2"
+        app:layout_constraintTop_toBottomOf="@+id/hostTV2" />
+
+    <Button
+        android:id="@+id/joinBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_oval_shape"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="Join a match"
+        app:layout_constraintStart_toStartOf="@+id/codeET"
+        app:layout_constraintTop_toBottomOf="@+id/codeET" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

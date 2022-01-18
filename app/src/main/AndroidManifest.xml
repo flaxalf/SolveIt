@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".ui.MatchmakingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.LeaderboardActivity"
             android:exported="false" />
         <activity
@@ -34,7 +37,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.MenuActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ui.levels.LevelsActivity"
             android:exported="true" />

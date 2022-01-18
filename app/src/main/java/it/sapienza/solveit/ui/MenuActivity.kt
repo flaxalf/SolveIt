@@ -1,6 +1,8 @@
 package it.sapienza.solveit.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AnimationUtils
@@ -8,6 +10,8 @@ import android.widget.Button
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.LevelsActivity
 import android.graphics.drawable.AnimationDrawable
+import android.util.Log
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import it.sapienza.solveit.ui.models.Constants
 
@@ -29,6 +33,7 @@ class MenuActivity : AppCompatActivity() {
         val btnLeaderboard = findViewById<Button>(R.id.buttonLeaderboard)
 
         val newIntent = Intent(this@MenuActivity, LevelsActivity::class.java)
+        val matchmakingIntent = Intent(this@MenuActivity, MatchmakingActivity::class.java)
         val leaderboardIntent = Intent(this@MenuActivity, LeaderboardActivity::class.java)
         val bundle = Bundle()
 
@@ -41,9 +46,7 @@ class MenuActivity : AppCompatActivity() {
 
         btnMulti.setOnClickListener{
             btnMulti.startAnimation(animZoom)
-            bundle.putBoolean(Constants.IS_SINGLE, false)
-            newIntent.putExtras(bundle)
-            startActivity(newIntent)
+            startActivity(matchmakingIntent)
         }
 
         btnLeaderboard.setOnClickListener{
@@ -51,6 +54,11 @@ class MenuActivity : AppCompatActivity() {
             startActivity(leaderboardIntent)
         }
 
+        // Get the username
+        val sharedPref = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+        val username = sharedPref.getString(Constants.USERNAME, "Unrecognized_username")
+        val welcomeTV = findViewById<TextView>(R.id.welcomeTV)
+        welcomeTV.text = "Welcome $username"
     }
 
     // for handling back button of the Android Device
