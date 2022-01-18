@@ -5,13 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.widget.Button
-import android.widget.ImageView
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.LevelsActivity
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.AnimationDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
-import it.sapienza.solveit.ui.levels.LeaderboardActivity
 import it.sapienza.solveit.ui.models.Constants
 
 

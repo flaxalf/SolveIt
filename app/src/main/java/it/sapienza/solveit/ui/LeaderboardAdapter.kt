@@ -1,4 +1,4 @@
-package it.sapienza.solveit.ui.levels
+package it.sapienza.solveit.ui
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView

@@ -1,4 +1,4 @@
-package it.sapienza.solveit.ui.levels
+package it.sapienza.solveit.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.sapienza.solveit.R
-import it.sapienza.solveit.ui.MenuActivity
 import java.util.*
 import kotlin.collections.ArrayList
 

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".ui.levels.LeaderboardActivity"
+            android:name=".ui.LeaderboardActivity"
             android:exported="false" />
         <activity
             android:name=".ui.InitActivity"
