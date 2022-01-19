@@ -23,7 +23,7 @@ class MultiLevelThreeFragment : Fragment() {
     private lateinit var buttonIV6: ImageView
 
     private var counter = 0
-    private var goal = 100
+    private var goal = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +77,7 @@ class MultiLevelThreeFragment : Fragment() {
 
     private fun nextLevel(){
         val bundle = Bundle()
-        bundle.putInt(Constants.LEVEL, 4) // Say to the dialog that fragment 4 called it
+        bundle.putInt(Constants.LEVEL, 3) // Say to the dialog that fragment 3 called it
         bundle.putBoolean(Constants.IS_SINGLE, false)
         winnerDialog.arguments = bundle
         winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)

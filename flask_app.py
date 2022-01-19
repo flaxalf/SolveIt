@@ -149,7 +149,7 @@ class levelOneMulti(Resource):
             levelInstance.button2 = buttonPressed
             levelInstance.right2 = rightButton.lower() == "true"
 
-        return jsonify("POST: OK")
+        return jsonify({"POST": "OK"})
 
 api.add_resource(levelOneMulti,'/levelOneMulti')
 
@@ -223,7 +223,7 @@ class levelTwoMulti(Resource):
             levelInstance.number2 = number
 
         levelInstance.lock.release()
-        return jsonify("POST: OK")
+        return jsonify({"POST": "OK"})
 
 api.add_resource(levelTwoMulti,'/levelTwoMulti')
 
@@ -289,7 +289,7 @@ class endGameMulti(Resource):
         now = time.time()
         id = request.args.get('id')
         if matchDict.get(id) is None:
-            return jsonify("POST: KO")
+            return jsonify({"POST": "KO"})
 
         matchingInstance = matchDict[id]
         reply_msg = {}
@@ -298,7 +298,7 @@ class endGameMulti(Resource):
             squad = matchingInstance.player1 + ' & ' + matchingInstance.player2
             timeDiff = round(now - matchingInstance.timestamp)
             if timeDiff >= 3600: #db supports max 5 chars (mm:ss)
-                return jsonify("POST: KO")
+                return jsonify({"POST": "KO"})
             timeFormatted = strftime("%M:%S", gmtime(timeDiff))
 
             connection = connectToDB()
@@ -347,7 +347,7 @@ class leaderboard(Resource):
 
     def post(self):
         #this post will not be used
-        return jsonify("POST: OK")
+        return jsonify({"POST": "OK"})
 
 api.add_resource(leaderboard,'/leaderboard')
 

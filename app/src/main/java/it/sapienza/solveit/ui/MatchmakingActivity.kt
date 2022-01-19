@@ -2,6 +2,7 @@ package it.sapienza.solveit.ui
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -38,7 +39,6 @@ class MatchmakingActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
         val username = sharedPref.getString(Constants.USERNAME, "Unrecognized_username")
 
-
         if (username != null && username.isNotEmpty()) {
             val proxy = MatchmakingProxy(username)
             hostBtn.setOnClickListener {
@@ -61,19 +61,21 @@ class MatchmakingActivity : AppCompatActivity() {
                             val waitResponse = proxy.waitSecondPlayer(id)
                             if(waitResponse.getString("matching").equals("start")){
 
+                                // Save the id
+                                val editor: SharedPreferences.Editor = sharedPref.edit()
+                                editor.putString(Constants.ID, id)
+                                editor.apply()
+
                                 // Go to multi level activity
                                 bundle.putBoolean(Constants.IS_SINGLE, false)
                                 multiIntent.putExtras(bundle)
                                 startActivity(multiIntent)
-                                Log.d("matching", "matched")
                                 timer.cancel()
                             }
                         }
                     }
 
                 }, 1000, 1000)
-
-
 
             }
             // Join match logic
@@ -87,12 +89,17 @@ class MatchmakingActivity : AppCompatActivity() {
 
                 GlobalScope.launch {
                     async {
-                        val reply = proxy.joinMatch(codeET.text.toString()
-                            .uppercase(Locale.getDefault()))
+                        val id = codeET.text.toString().uppercase(Locale.getDefault())
+                        val reply = proxy.joinMatch(id)
 
                         val postStatus = reply.getString("POST")
 
                         if (postStatus.equals("OK")) {
+                            // Save the id
+                            val editor: SharedPreferences.Editor = sharedPref.edit()
+                            editor.putString(Constants.ID, id)
+                            editor.apply()
+
                             bundle.putBoolean(Constants.IS_SINGLE, false)
                             multiIntent.putExtras(bundle)
                             startActivity(multiIntent)
