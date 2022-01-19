@@ -48,8 +48,6 @@ class CustomDialogFragment: DialogFragment() {
                     val id = sharedPref?.getString(Constants.ID, "Unrecognized_id")
                     val reply = proxy.end(id.toString())
 
-                    Log.d("reply", "win multi: "+ reply.toString())
-
                     val postStatus = reply.getString("POST")
 
                     if (postStatus.equals("OK")) {
@@ -68,9 +66,7 @@ class CustomDialogFragment: DialogFragment() {
                     }
                 }
             }
-
         }
-
 
         nextFragmentButton = rootView.findViewById(R.id.nextLevelButton) as Button
         nextFragmentButton.setOnClickListener {
@@ -99,7 +95,6 @@ class CustomDialogFragment: DialogFragment() {
                     .replace(R.id.fragmentContainerView, levelFragment).commit()
                 dismiss()
             } else{
-
                 startActivity(winIntent)
             }
         }

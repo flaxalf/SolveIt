@@ -1,7 +1,9 @@
 package it.sapienza.solveit.ui.levels.multi
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,8 @@ import it.sapienza.solveit.R
 import android.widget.TextView
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
+import it.sapienza.solveit.ui.proxy.EndgameProxy
+import it.sapienza.solveit.ui.proxy.LevelThreeProxy
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -44,6 +48,15 @@ class MultiLevelThreeFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_multi_level_three, container, false)
         counterTV = view.findViewById(R.id.counterTV)
         buttonIV6 = view.findViewById(R.id.buttonIV6)
+
+        val sharedPref =
+            activity?.getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE)
+
+        // TODO: create the proxy
+        // a POST (increase by 1 the counter) will be created every time the user click a button
+        // while a GET (read counter) need to be periodically sent
+        val proxy = LevelThreeProxy()
+
 
         buttonIV6.setOnClickListener {
             performAnimation()
