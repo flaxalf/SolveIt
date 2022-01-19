@@ -5,7 +5,6 @@ import it.sapienza.solveit.ui.models.Constants
 import org.json.JSONObject
 import java.io.InputStreamReader
 import java.net.URL
-import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
 class MatchmakingProxy (private val username: String) {

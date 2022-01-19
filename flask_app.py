@@ -166,8 +166,8 @@ class levelTwoInstance:
 
     def isLevelPassed(self):
         if self.number1 == self.number2:
-            return True
-        return False
+            return "success"
+        return "retry"
 
 
 

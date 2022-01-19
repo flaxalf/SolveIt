@@ -1,6 +1,8 @@
 package it.sapienza.solveit.ui.levels.multi
 
 import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
 import android.util.Log
@@ -16,11 +18,17 @@ import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
 import it.sapienza.solveit.ui.models.MinMaxFilter
+import it.sapienza.solveit.ui.proxy.LevelTwoProxy
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import java.util.*
 
 class MultiLevelTwoFragment : Fragment() {
     private val winnerDialog = CustomDialogFragment()
     private lateinit var numberET: EditText
     private lateinit var buttonMulti2: Button
+    private lateinit var successInfoTV : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,27 +50,81 @@ class MultiLevelTwoFragment : Fragment() {
 
         numberET = view.findViewById(R.id.numberET)
         buttonMulti2 = view.findViewById(R.id.buttonMulti2)
+        successInfoTV = view.findViewById(R.id.successInfoTV)
 
         // Assigning filters
         numberET.filters = arrayOf<InputFilter>(MinMaxFilter(1, 10))
 
-        buttonMulti2.setOnClickListener {
-            if (numberET.text != null && numberET.text.isNotEmpty()) {
-                val number = numberET.text.toString()
-                Log.d("number","numberEt.text=$number")
-                buttonMulti2.isClickable = false
-                numberET.isClickable = false
-                //if (numberET.text == cloud.numberText)
-                if(numberET.text.toString() == "5"){
-                    nextLevel()
-                } else{
-                    buttonMulti2.isClickable = true
-                    numberET.isClickable = true
-                    Toast.makeText(context as Activity, "The other player choose 5." +
-                            "Try again", Toast.LENGTH_SHORT).show()
+
+        val sharedPref = activity?.getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE)
+        val username = sharedPref?.getString(Constants.USERNAME, "Unrecognized_username")
+        val id = sharedPref?.getString(Constants.ID, "Unrecognized_id")
+
+        if (username != null && username.isNotEmpty() && id != null && id.isNotEmpty()) {
+            val proxy = LevelTwoProxy(username, id)
+
+            buttonMulti2.setOnClickListener {
+                if (numberET.text != null && numberET.text.isNotEmpty()) {
+                    val number = numberET.text.toString()
+                    Log.d("number", "numberEt.text=$number")
+                    buttonMulti2.isClickable = false
+                    numberET.isClickable = false
+
+                    GlobalScope.launch {
+                        async {
+                            proxy.selectNumber(number)
+
+                        }
+                    }
+
+                    val timer = Timer("wait", true)
+                    timer.scheduleAtFixedRate(object : TimerTask() {
+                        override fun run() {
+                            Log.d("timer", "running")
+                            val waitResponse = proxy.getOtherPlayerChoice()
+                            val success = waitResponse.getString("success")
+
+                            when {
+                                success.equals("success") -> {
+                                    nextLevel()
+                                    Log.d("timer", "stop")
+                                    timer.cancel()
+                                }
+                                success.equals("retry") -> {
+                                    val otherPlayerNumber = waitResponse.getString("number")
+
+                                    activity?.runOnUiThread() {
+                                        run() {
+                                            buttonMulti2.isClickable = true
+                                            numberET.isClickable = true
+
+                                            successInfoTV.text = "Try again! The other " +
+                                                    "player choose $otherPlayerNumber"
+                                        }
+                                    }
+                                    timer.cancel()
+                                }
+                                success.equals("wait") -> {
+                                    activity?.runOnUiThread(){
+                                        run(){
+                                            successInfoTV.text = "Waiting for the other player"
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
+
+                    }, 1000, 1000)
+
+                } else {
+                    Toast.makeText(
+                        context as Activity,
+                        "You must insert a number",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-            } else{
-                Toast.makeText(context as Activity, "You must insert a number", Toast.LENGTH_SHORT).show()
             }
         }
 

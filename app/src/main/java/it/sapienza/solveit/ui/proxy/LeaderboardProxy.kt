@@ -16,8 +16,7 @@ class LeaderboardProxy {
         try {
             conn.run {
                 requestMethod = "GET"
-                val reply = JSONObject(InputStreamReader(inputStream).readText())
-                return reply
+                return JSONObject(InputStreamReader(inputStream).readText())
             }
         } catch (e: Exception) {
             Log.v("Leaderboard", e.toString())

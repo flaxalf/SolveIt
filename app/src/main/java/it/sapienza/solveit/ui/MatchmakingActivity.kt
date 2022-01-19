@@ -48,7 +48,6 @@ class MatchmakingActivity : AppCompatActivity() {
                     async {
                         id = proxy.hostMatch()
                         idTV.text = id
-                        proxy.waitSecondPlayer(id)
 
                     }
                 }
@@ -56,7 +55,6 @@ class MatchmakingActivity : AppCompatActivity() {
                 val timer = Timer("wait", true)
                 timer.scheduleAtFixedRate(object : TimerTask() {
                     override fun run() {
-                        Log.d("matching", "checking")
                         if(id.isNotEmpty()) {
                             val waitResponse = proxy.waitSecondPlayer(id)
                             if(waitResponse.getString("matching").equals("start")){
