@@ -7,10 +7,10 @@ import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-class LevelThreeProxy () {
+class LevelThreeProxy (private val id : String) {
     private val address = Constants.CLOUD_ADDRESS + "levelThreeMulti"
 
-    fun readCounter(id : String): JSONObject {
+    fun readCounter(): JSONObject {
         val url = URL("$address?id=$id")
         val conn = url.openConnection() as HttpsURLConnection
         try {
@@ -24,7 +24,7 @@ class LevelThreeProxy () {
         }
     }
 
-    fun increaseCounter(id : String): JSONObject {
+    fun increaseCounter(): JSONObject {
         val url = URL("$address?id=$id")
         val conn = url.openConnection() as HttpsURLConnection
         try {

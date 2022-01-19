@@ -222,7 +222,7 @@ api.add_resource(levelTwoMulti,'/levelTwoMulti')
 levelThreeDict = {}
 
 class levelThreeInstance:
-    def __init__(self, id, c = 0, g = 10):
+    def __init__(self, id, c = 0, g = 50):
         self.id = id
         self.count = c
         self.goal = g

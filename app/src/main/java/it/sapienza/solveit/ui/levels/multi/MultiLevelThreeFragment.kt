@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import it.sapienza.solveit.R
 import android.widget.TextView
+import android.widget.Toast
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
 import it.sapienza.solveit.ui.proxy.EndgameProxy
@@ -19,6 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class MultiLevelThreeFragment : Fragment() {
@@ -26,8 +28,9 @@ class MultiLevelThreeFragment : Fragment() {
     private lateinit var counterTV: TextView
     private lateinit var buttonIV6: ImageView
 
-    private var counter = 0
-    private var goal = 1
+    private var goal = 50
+
+    private var check = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,41 +54,65 @@ class MultiLevelThreeFragment : Fragment() {
 
         val sharedPref =
             activity?.getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE)
+        val id = sharedPref?.getString(Constants.ID, "Unrecognized_id")
 
-        // TODO: create the proxy
-        // a POST (increase by 1 the counter) will be created every time the user click a button
-        // while a GET (read counter) need to be periodically sent
-        val proxy = LevelThreeProxy()
+        if (id != null && id.isNotEmpty()) {
+            val proxy = LevelThreeProxy(id)
+
+            val timer = Timer("levelThree", true)
+            timer.scheduleAtFixedRate(object : TimerTask() {
+                override fun run() {
+                    Log.d("timer", "run")
+                    val counterResponse = proxy.readCounter()
+                    val count = counterResponse.getInt("count")
+
+                    activity?.runOnUiThread() {
+                        run() {
+                            counterTV.text = count.toString()
+                        }
+                    }
+
+                    if(count == goal){
+                        check++
+                    } else{
+                        check = 0
+                    }
+
+                    if(check == 5){ //it means that the counter has been equal to goal for 5 seconds
+                        nextLevel()
+                        Log.d("timer", "cancel")
+                        timer.cancel()
+                    }
+                }
 
 
-        buttonIV6.setOnClickListener {
-            performAnimation()
+            }, 1000, 1000)
+
+
+            buttonIV6.setOnClickListener {
+                GlobalScope.launch {
+                    async {
+                        val increaseResponse = proxy.increaseCounter()
+                        val post = increaseResponse.getString("POST")
+                        if (post.equals("OK")) {
+                            val count = increaseResponse.getInt("count")
+                            activity?.runOnUiThread() {
+                                run() {
+                                    counterTV.text = count.toString()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        } else {
+            Toast.makeText(activity, "System error", Toast.LENGTH_SHORT).show()
         }
-
 
         return view
     }
 
-
-    private fun performAnimation() {
-        counter++
-
-        if(counter == goal) {
-            GlobalScope.launch {
-                async {
-                    delay(5000L)
-                    if(counter == goal){
-                        nextLevel()
-                    }
-                }
-            }
-        }
-        if(counter > goal) {
-            counter = 0
-        }
-        counterTV.text = counter.toString()
-        
-    }
 
 
     private fun nextLevel(){
