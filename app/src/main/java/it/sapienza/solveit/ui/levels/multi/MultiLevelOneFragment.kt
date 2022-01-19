@@ -2,8 +2,10 @@ package it.sapienza.solveit.ui.levels.multi
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +14,15 @@ import android.widget.Button
 import it.sapienza.solveit.R
 import android.view.MotionEvent
 import android.widget.TextView
+import android.widget.Toast
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
+import it.sapienza.solveit.ui.proxy.LevelOneProxy
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.lang.Thread.sleep
+import java.util.*
 
 
 class MultiLevelOneFragment : Fragment() {
@@ -48,20 +56,55 @@ class MultiLevelOneFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_multi_level_one, container, false)
+        val sharedPref = activity?.getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE)
+        val username = sharedPref?.getString(Constants.USERNAME, "Unrecognized_username")
+        val id = sharedPref?.getString(Constants.ID, "Unrecognized_id")
 
-        val chosenButton  = chooseRandomButton(view)
+        if (username != null && username.isNotEmpty() && id != null && id.isNotEmpty()) {
+            val chosenButton = chooseRandomButton(view)
+            val proxy = LevelOneProxy(id, username)
 
-        chosenButton.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                // Pressed
-                chosenButton.setBackgroundColor(Color.GREEN)
-                sleep(1000)
-                nextLevel()
-            } else if (event.action == MotionEvent.ACTION_UP) {
-                // Released
-                chosenButton.setBackgroundColor(Color.RED)
+            val timer = Timer("levelOne", true)
+            timer.scheduleAtFixedRate(object : TimerTask() {
+                override fun run() {
+                    Log.d("timer", "run")
+                    val waitResponse = proxy.getOtherPlayerChoice()
+                    val success = waitResponse.getBoolean("success")
+
+                    if(success){
+                        nextLevel()
+                        timer.cancel()
+                        Log.d("timer", "cancel")
+                    }
+                }
+
+
+            }, 1000, 1000)
+
+            chosenButton.setOnTouchListener { _, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    // Pressed
+                    chosenButton.setBackgroundColor(Color.GREEN)
+                    GlobalScope.launch {
+                        async {
+                            proxy.sendMyChoice(true)
+                        }
+                    }
+                } else if (event.action == MotionEvent.ACTION_UP) {
+                    // Released
+                    chosenButton.setBackgroundColor(Color.RED)
+                    GlobalScope.launch {
+                        async {
+                            proxy.sendMyChoice(false)
+                        }
+                    }
+                }
+                true
             }
-            true
+
+
+        } else {
+            Toast.makeText(activity, "System error", Toast.LENGTH_SHORT).show()
         }
 
         return view

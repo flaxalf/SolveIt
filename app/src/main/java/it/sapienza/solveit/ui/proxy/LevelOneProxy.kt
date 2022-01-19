@@ -7,27 +7,27 @@ import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-class LevelOneProxy {
+class LevelOneProxy(private val id : String, private val username: String) {
     private val address = Constants.CLOUD_ADDRESS + "levelOneMulti"
 
-    //GET send user and id -> reply: {button: x, success: y}
-    fun getOtherPlayerChoice(id : String, username: String): JSONObject {
-        val url = URL("$address?id=$id&user=$username")
+    //GET send id -> reply: {success: x}
+    fun getOtherPlayerChoice(): JSONObject {
+        val url = URL("$address?id=$id")
         val conn = url.openConnection() as HttpsURLConnection
         try {
             conn.run {
                 requestMethod = "GET"
-                return JSONObject(InputStreamReader(inputStream).readText())        //{button: x, success: y}
+                return JSONObject(InputStreamReader(inputStream).readText())        //{success: x}
             }
         } catch (e: Exception) {
-            Log.v("HOST", e.toString())
+            Log.v("getOtherPlayerChoice", e.toString())
             return JSONObject()
         }
     }
 
     //POST send id, user, button and right (true/false) -> reply: {"POST": "OK"}
-    fun sendMyChoice(id : String, username: String, button: Int, right: Boolean): JSONObject {
-        val url = URL("$address?id=$id&user=$username&button=$button&right=$right")
+    fun sendMyChoice(right: Boolean): JSONObject {
+        val url = URL("$address?id=$id&user=$username&right=$right")
         val conn = url.openConnection() as HttpsURLConnection
         try {
             conn.run {
@@ -35,7 +35,7 @@ class LevelOneProxy {
                 return JSONObject(InputStreamReader(inputStream).readText())        //{POST: OK}
             }
         } catch (e: Exception) {
-            Log.v("HOST", e.toString())
+            Log.v("sendMyChoice", e.toString())
             return JSONObject()
         }
     }

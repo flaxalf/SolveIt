@@ -19,7 +19,7 @@ class LeaderboardProxy {
                 return JSONObject(InputStreamReader(inputStream).readText())
             }
         } catch (e: Exception) {
-            Log.v("Leaderboard", e.toString())
+            Log.v("getOrderedLeaderboard", e.toString())
             return JSONObject()
         }
     }

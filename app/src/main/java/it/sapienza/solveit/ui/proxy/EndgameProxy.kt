@@ -20,7 +20,7 @@ class EndgameProxy () {
                 return JSONObject(InputStreamReader(inputStream).readText())
             }
         } catch (e: Exception) {
-            Log.v("HOST", e.toString())
+            Log.v("end", e.toString())
             return JSONObject()
         }
     }

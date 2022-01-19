@@ -52,7 +52,7 @@ class MatchmakingActivity : AppCompatActivity() {
                     }
                 }
 
-                val timer = Timer("wait", true)
+                val timer = Timer("matchmaking", true)
                 timer.scheduleAtFixedRate(object : TimerTask() {
                     override fun run() {
                         if(id.isNotEmpty()) {

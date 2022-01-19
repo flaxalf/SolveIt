@@ -77,17 +77,15 @@ class MultiLevelTwoFragment : Fragment() {
                         }
                     }
 
-                    val timer = Timer("wait", true)
+                    val timer = Timer("levelTwo", true)
                     timer.scheduleAtFixedRate(object : TimerTask() {
                         override fun run() {
-                            Log.d("timer", "running")
                             val waitResponse = proxy.getOtherPlayerChoice()
                             val success = waitResponse.getString("success")
 
                             when {
                                 success.equals("success") -> {
                                     nextLevel()
-                                    Log.d("timer", "stop")
                                     timer.cancel()
                                 }
                                 success.equals("retry") -> {
@@ -126,6 +124,8 @@ class MultiLevelTwoFragment : Fragment() {
                     ).show()
                 }
             }
+        } else {
+            Toast.makeText(activity, "System error", Toast.LENGTH_SHORT).show()
         }
 
         return view

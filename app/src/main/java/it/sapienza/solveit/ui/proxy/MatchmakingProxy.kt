@@ -41,7 +41,7 @@ class MatchmakingProxy (private val username: String) {
                 return reply.getString("id")
             }
         } catch (e: Exception) {
-            Log.v("HOST", e.toString())
+            Log.v("hostMatch", e.toString())
             return ""
         }
     }
@@ -55,7 +55,7 @@ class MatchmakingProxy (private val username: String) {
                 return JSONObject(InputStreamReader(inputStream).readText())
             }
         } catch (e: Exception) {
-            Log.v("HOST", e.toString())
+            Log.v("waitSecondPlayer", e.toString())
             return JSONObject()
         }
     }
@@ -69,7 +69,7 @@ class MatchmakingProxy (private val username: String) {
                 return JSONObject(InputStreamReader(inputStream).readText())
             }
         } catch (e: Exception) {
-            Log.v("HOST", e.toString())
+            Log.v("joinMatch", e.toString())
             return JSONObject()
         }
     }

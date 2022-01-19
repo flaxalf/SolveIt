@@ -19,7 +19,7 @@ class LevelThreeProxy () {
                 return JSONObject(InputStreamReader(inputStream).readText())        //{count: x}
             }
         } catch (e: Exception) {
-            Log.v("HOST", e.toString())
+            Log.v("readCounter", e.toString())
             return JSONObject()
         }
     }
@@ -33,7 +33,7 @@ class LevelThreeProxy () {
                 return JSONObject(InputStreamReader(inputStream).readText())        //{POST: OK, count: x}
             }
         } catch (e: Exception) {
-            Log.v("HOST", e.toString())
+            Log.v("increaseCounter", e.toString())
             return JSONObject()
         }
     }

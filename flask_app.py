@@ -99,10 +99,8 @@ api.add_resource(matchingMulti,'/matchingMulti')
 levelOneDict = {}
 
 class levelOneInstance:
-    def __init__(self, id, b1 = 0, b2 = 0):
+    def __init__(self, id):
         self.id = id
-        self.button1 = b1
-        self.button2 = b2
         self.right1 = False
         self.right2 = False
 
@@ -115,17 +113,12 @@ class levelOneInstance:
 class levelOneMulti(Resource):
     def get(self):
         id = request.args.get('id')
-        user = request.args.get('user')
 
         reply_msg = {}
         if levelOneDict.get(id) is None:
             levelOneDict[id] = levelOneInstance(id)
 
         levelInstance = levelOneDict[id]
-        if user == matchDict[id].player1:
-            reply_msg['button'] = levelInstance.button2
-        else:
-            reply_msg['button'] = levelInstance.button1
 
         passed = levelInstance.isLevelPassed()
         reply_msg['success'] = passed
@@ -135,7 +128,6 @@ class levelOneMulti(Resource):
     def post(self):
         id = request.args.get('id')
         user = request.args.get('user')
-        buttonPressed = request.args.get('button')
         rightButton = request.args.get('right')
 
         if levelOneDict.get(id) is None:
@@ -143,10 +135,8 @@ class levelOneMulti(Resource):
 
         levelInstance = levelOneDict[id]
         if user == matchDict[id].player1:
-            levelInstance.button1 = buttonPressed
             levelInstance.right1 = rightButton.lower() == "true"
         else:
-            levelInstance.button2 = buttonPressed
             levelInstance.right2 = rightButton.lower() == "true"
 
         return jsonify({"POST": "OK"})
