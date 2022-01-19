@@ -3,17 +3,24 @@ package it.sapienza.solveit.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.sapienza.solveit.R
+import it.sapienza.solveit.ui.proxy.LeaderboardProxy
+import it.sapienza.solveit.ui.proxy.MatchmakingProxy
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
 class LeaderboardActivity : AppCompatActivity() {
 
     // TODO: take from DB
-    private  var personNames = ArrayList(listOf("Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6", "Person 7", "Person 7", "Person 7", "Person 7", "Person 7", "Person 7", "Person 7", "Person 7", "Person 7", "Person 7", "Person 7", "Person 7", "Person 7"))
+    lateinit var personNames : JSONObject
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +38,19 @@ class LeaderboardActivity : AppCompatActivity() {
         recyclerView.layoutManager = linearLayoutManager
 
         //  set the adapter which will send the reference and data to Adapter
-        val leadAdapter = LeaderboardAdapter(this@LeaderboardActivity, personNames)
-        recyclerView.adapter = leadAdapter
+        // Take the leaderboard from the cloud
+        val proxy = LeaderboardProxy()
+        GlobalScope.launch {
+            async {
+                val reply = proxy.getOrderedLeaderboard()
+
+                runOnUiThread {
+                    run() {
+                        val leadAdapter = LeaderboardAdapter(this@LeaderboardActivity, reply)
+                        recyclerView.adapter = leadAdapter
+                    }
+                }
+            }
+        }
     }
 }

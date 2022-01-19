@@ -36,7 +36,6 @@ class MatchmakingProxy (private val username: String) {
         val url = URL("$address?user=$username")
         val conn = url.openConnection() as HttpsURLConnection
         try {
-            //Log.i("POLL", "ok")
             conn.run {
                 requestMethod = "GET"
                 val reply = JSONObject(InputStreamReader(inputStream).readText())
@@ -52,7 +51,6 @@ class MatchmakingProxy (private val username: String) {
         val url = URL("$address?id=$id")
         val conn = url.openConnection() as HttpsURLConnection
         try {
-            //Log.i("POLL", "ok")
             conn.run {
                 requestMethod = "GET"
                 return JSONObject(InputStreamReader(inputStream).readText())
@@ -67,7 +65,6 @@ class MatchmakingProxy (private val username: String) {
         val url = URL("$address?user=$username&id=$id")
         val conn = url.openConnection() as HttpsURLConnection
         try {
-            //Log.i("POLL", "ok")
             conn.run {
                 requestMethod = "POST"
                 return JSONObject(InputStreamReader(inputStream).readText())

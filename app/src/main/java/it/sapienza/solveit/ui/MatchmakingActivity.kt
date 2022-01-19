@@ -87,10 +87,10 @@ class MatchmakingActivity : AppCompatActivity() {
 
                 GlobalScope.launch {
                     async {
-                        var reply = proxy.joinMatch(codeET.text.toString()
+                        val reply = proxy.joinMatch(codeET.text.toString()
                             .uppercase(Locale.getDefault()))
 
-                        var postStatus = reply.getString("POST")
+                        val postStatus = reply.getString("POST")
 
                         if (postStatus.equals("OK")) {
                             bundle.putBoolean(Constants.IS_SINGLE, false)
