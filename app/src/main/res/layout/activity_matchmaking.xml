@@ -100,8 +100,8 @@
 
     <TextView
         android:id="@+id/idTV"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="87dp"
+        android:layout_height="28dp"
         android:layout_marginStart="32dp"
         android:fontFamily="@font/allerta_stencil"
         android:textColor="@color/black"

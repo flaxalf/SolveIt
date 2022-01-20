@@ -103,6 +103,7 @@ class levelOneInstance:
         self.id = id
         self.right1 = False
         self.right2 = False
+        self.levelCompleted = False
 
     def isLevelPassed(self):
         if self.right1 and self.right2:
@@ -121,7 +122,9 @@ class levelOneMulti(Resource):
         levelInstance = levelOneDict[id]
 
         passed = levelInstance.isLevelPassed()
-        reply_msg['success'] = passed
+        if(passed):
+            levelInstance.levelCompleted = True
+        reply_msg['success'] = levelInstance.levelCompleted
 
         return jsonify(reply_msg)
 

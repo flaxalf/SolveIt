@@ -53,7 +53,7 @@ class MultiLevelTwoFragment : Fragment() {
         successInfoTV = view.findViewById(R.id.successInfoTV)
 
         // Assigning filters
-        numberET.filters = arrayOf<InputFilter>(MinMaxFilter(1, 10))
+        numberET.filters = arrayOf<InputFilter>(MinMaxFilter(0, 10))
 
 
         val sharedPref = activity?.getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE)
