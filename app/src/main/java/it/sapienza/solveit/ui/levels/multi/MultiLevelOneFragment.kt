@@ -21,7 +21,6 @@ import it.sapienza.solveit.ui.proxy.LevelOneProxy
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.lang.Thread.sleep
 import java.util.*
 
 
@@ -37,6 +36,8 @@ class MultiLevelOneFragment : Fragment() {
     private lateinit var button8: Button
     private lateinit var button9: Button
 
+    var timer = Timer("levelOne", true)
+    lateinit var proxy : LevelOneProxy
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,24 +63,8 @@ class MultiLevelOneFragment : Fragment() {
 
         if (username != null && username.isNotEmpty() && id != null && id.isNotEmpty()) {
             val chosenButton = chooseRandomButton(view)
-            val proxy = LevelOneProxy(id, username)
-
-            val timer = Timer("levelOne", true)
-            timer.scheduleAtFixedRate(object : TimerTask() {
-                override fun run() {
-                    Log.d("timer", "run")
-                    val waitResponse = proxy.getOtherPlayerChoice()
-                    val success = waitResponse.getBoolean("success")
-
-                    if(success){
-                        nextLevel()
-                        timer.cancel()
-                        Log.d("timer", "cancel")
-                    }
-                }
-
-
-            }, 1000, 1000)
+            proxy = LevelOneProxy(id, username)
+            timer.scheduleAtFixedRate(TimerLevelOne(proxy), 1000, 1000)
 
             chosenButton.setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) {
@@ -147,5 +132,32 @@ class MultiLevelOneFragment : Fragment() {
         winnerDialog.arguments = bundle
         winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)
     }
+
+    override fun onPause() {
+        super.onPause()
+        timer.cancel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        timer = Timer("levelOne", true)
+        timer.scheduleAtFixedRate(TimerLevelOne(proxy), 1000, 1000)
+    }
+
+    inner class TimerLevelOne(var proxy : LevelOneProxy) : TimerTask(){
+        override fun run() {
+            Log.d("timer", "run")
+            val waitResponse = proxy.getOtherPlayerChoice()
+            val success = waitResponse.getBoolean("success")
+
+            if(success){
+                nextLevel()
+                timer.cancel()
+                Log.d("timer", "cancel")
+            }
+        }
+
+    }
+
 
 }

@@ -2,7 +2,6 @@ package it.sapienza.solveit.ui.levels.multi
 
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
 import android.util.Log
@@ -29,6 +28,9 @@ class MultiLevelTwoFragment : Fragment() {
     private lateinit var numberET: EditText
     private lateinit var buttonMulti2: Button
     private lateinit var successInfoTV : TextView
+
+    var timer = Timer("levelTwo", true)
+    lateinit var proxy : LevelTwoProxy
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +63,7 @@ class MultiLevelTwoFragment : Fragment() {
         val id = sharedPref?.getString(Constants.ID, "Unrecognized_id")
 
         if (username != null && username.isNotEmpty() && id != null && id.isNotEmpty()) {
-            val proxy = LevelTwoProxy(username, id)
+            proxy = LevelTwoProxy(username, id)
 
             buttonMulti2.setOnClickListener {
                 if (numberET.text != null && numberET.text.isNotEmpty()) {
@@ -77,44 +79,7 @@ class MultiLevelTwoFragment : Fragment() {
                         }
                     }
 
-                    val timer = Timer("levelTwo", true)
-                    timer.scheduleAtFixedRate(object : TimerTask() {
-                        override fun run() {
-                            val waitResponse = proxy.getOtherPlayerChoice()
-                            val success = waitResponse.getString("success")
-
-                            when {
-                                success.equals("success") -> {
-                                    nextLevel()
-                                    timer.cancel()
-                                }
-                                success.equals("retry") -> {
-                                    val otherPlayerNumber = waitResponse.getString("number")
-
-                                    activity?.runOnUiThread() {
-                                        run() {
-                                            buttonMulti2.isClickable = true
-                                            numberET.isClickable = true
-
-                                            successInfoTV.text = "Try again! The other " +
-                                                    "player choose $otherPlayerNumber"
-                                        }
-                                    }
-                                    timer.cancel()
-                                }
-                                success.equals("wait") -> {
-                                    activity?.runOnUiThread(){
-                                        run(){
-                                            successInfoTV.text = "Waiting for the other player"
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-
-
-                    }, 1000, 1000)
+                    timer.scheduleAtFixedRate(TimerLevelTwo(proxy), 1000, 1000)
 
                 } else {
                     Toast.makeText(
@@ -137,6 +102,55 @@ class MultiLevelTwoFragment : Fragment() {
         bundle.putBoolean(Constants.IS_SINGLE, false)
         winnerDialog.arguments = bundle
         winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer.cancel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        timer = Timer("levelTwo", true)
+        timer.scheduleAtFixedRate(TimerLevelTwo(proxy), 1000, 1000)
+    }
+
+
+    inner class TimerLevelTwo(var proxy : LevelTwoProxy) : TimerTask(){
+        override fun run() {
+            val waitResponse = proxy.getOtherPlayerChoice()
+            val success = waitResponse.getString("success")
+
+            when {
+                success.equals("success") -> {
+                    nextLevel()
+                    timer.cancel()
+                }
+                success.equals("retry") -> {
+                    val otherPlayerNumber = waitResponse.getString("number")
+
+                    activity?.runOnUiThread() {
+                        run() {
+                            buttonMulti2.isClickable = true
+                            numberET.isClickable = true
+
+                            successInfoTV.text = "Try again! The other " +
+                                    "player choose $otherPlayerNumber"
+                        }
+                    }
+                    timer.cancel()
+                }
+                success.equals("wait") -> {
+                    activity?.runOnUiThread(){
+                        run(){
+                            successInfoTV.text = "Waiting for the other player"
+                        }
+                    }
+
+                }
+            }
+        }
+
     }
 
 }

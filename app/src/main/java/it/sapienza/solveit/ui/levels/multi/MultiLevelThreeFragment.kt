@@ -14,11 +14,9 @@ import android.widget.TextView
 import android.widget.Toast
 import it.sapienza.solveit.ui.levels.CustomDialogFragment
 import it.sapienza.solveit.ui.models.Constants
-import it.sapienza.solveit.ui.proxy.EndgameProxy
 import it.sapienza.solveit.ui.proxy.LevelThreeProxy
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -28,8 +26,10 @@ class MultiLevelThreeFragment : Fragment() {
     private lateinit var counterTV: TextView
     private lateinit var buttonIV6: ImageView
 
-    private var goal = 50
+    var timer = Timer("levelThree", true)
+    lateinit var proxy : LevelThreeProxy
 
+    private var goal = 50
     private var check = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,36 +57,9 @@ class MultiLevelThreeFragment : Fragment() {
         val id = sharedPref?.getString(Constants.ID, "Unrecognized_id")
 
         if (id != null && id.isNotEmpty()) {
-            val proxy = LevelThreeProxy(id)
+            proxy = LevelThreeProxy(id)
 
-            val timer = Timer("levelThree", true)
-            timer.scheduleAtFixedRate(object : TimerTask() {
-                override fun run() {
-                    Log.d("timer", "run")
-                    val counterResponse = proxy.readCounter()
-                    val count = counterResponse.getInt("count")
-
-                    activity?.runOnUiThread() {
-                        run() {
-                            counterTV.text = count.toString()
-                        }
-                    }
-
-                    if(count == goal){
-                        check++
-                    } else{
-                        check = 0
-                    }
-
-                    if(check == 5){ //it means that the counter has been equal to goal for 5 seconds
-                        nextLevel()
-                        Log.d("timer", "cancel")
-                        timer.cancel()
-                    }
-                }
-
-
-            }, 1000, 1000)
+            timer.scheduleAtFixedRate(TimerLevelThree(proxy), 1000, 1000)
 
 
             buttonIV6.setOnClickListener {
@@ -121,6 +94,45 @@ class MultiLevelThreeFragment : Fragment() {
         bundle.putBoolean(Constants.IS_SINGLE, false)
         winnerDialog.arguments = bundle
         winnerDialog.show(parentFragmentManager, Constants.NEXT_LEVEL)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer.cancel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        timer = Timer("levelThree", true)
+        timer.scheduleAtFixedRate(TimerLevelThree(proxy), 1000, 1000)
+    }
+
+
+    inner class TimerLevelThree(var proxy : LevelThreeProxy) : TimerTask(){
+        override fun run() {
+            Log.d("timer", "run")
+            val counterResponse = proxy.readCounter()
+            val count = counterResponse.getInt("count")
+
+            activity?.runOnUiThread() {
+                run() {
+                    counterTV.text = count.toString()
+                }
+            }
+
+            if(count == goal){
+                check++
+            } else{
+                check = 0
+            }
+
+            if(check == 5){ //it means that the counter has been equal to goal for 5 seconds
+                nextLevel()
+                Log.d("timer", "cancel")
+                timer.cancel()
+            }
+        }
+
     }
 
 }

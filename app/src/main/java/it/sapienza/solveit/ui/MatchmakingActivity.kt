@@ -10,6 +10,7 @@ import android.widget.*
 import it.sapienza.solveit.R
 import it.sapienza.solveit.ui.levels.LevelsActivity
 import it.sapienza.solveit.ui.models.Constants
+import it.sapienza.solveit.ui.proxy.LevelOneProxy
 import it.sapienza.solveit.ui.proxy.MatchmakingProxy
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -17,8 +18,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.util.*
+import java.util.logging.Logger
 
 class MatchmakingActivity : AppCompatActivity() {
+
+    var timer = Timer("matchmaking", true)
+    lateinit var proxy : MatchmakingProxy
+    lateinit var sharedPref : SharedPreferences
+    lateinit var multiIntent : Intent
+    var bundle = Bundle()
+    var id = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matchmaking)
@@ -29,20 +39,19 @@ class MatchmakingActivity : AppCompatActivity() {
             startActivity(Intent(this@MatchmakingActivity, MenuActivity::class.java))
         }
 
-        val multiIntent = Intent(this@MatchmakingActivity, LevelsActivity::class.java)
-        val bundle = Bundle()
 
         val hostBtn = findViewById<Button>(R.id.hostBtn)
         val joinBtn = findViewById<Button>(R.id.joinBtn)
         val idTV = findViewById<TextView>(R.id.idTV)
 
-        val sharedPref = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+        multiIntent = Intent(this@MatchmakingActivity, LevelsActivity::class.java)
+        sharedPref = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
         val username = sharedPref.getString(Constants.USERNAME, "Unrecognized_username")
 
         if (username != null && username.isNotEmpty()) {
-            val proxy = MatchmakingProxy(username)
+            proxy = MatchmakingProxy(username)
             hostBtn.setOnClickListener {
-                var id = ""
+                hostBtn.isClickable = false
 
                 GlobalScope.launch {
                     async {
@@ -52,28 +61,7 @@ class MatchmakingActivity : AppCompatActivity() {
                     }
                 }
 
-                val timer = Timer("matchmaking", true)
-                timer.scheduleAtFixedRate(object : TimerTask() {
-                    override fun run() {
-                        if(id.isNotEmpty()) {
-                            val waitResponse = proxy.waitSecondPlayer(id)
-                            if(waitResponse.getString("matching").equals("start")){
-
-                                // Save the id
-                                val editor: SharedPreferences.Editor = sharedPref.edit()
-                                editor.putString(Constants.ID, id)
-                                editor.apply()
-
-                                // Go to multi level activity
-                                bundle.putBoolean(Constants.IS_SINGLE, false)
-                                multiIntent.putExtras(bundle)
-                                startActivity(multiIntent)
-                                timer.cancel()
-                            }
-                        }
-                    }
-
-                }, 1000, 1000)
+                timer.scheduleAtFixedRate(TimerMatchmaking(proxy), 1000, 1000)
 
             }
             // Join match logic
@@ -116,4 +104,44 @@ class MatchmakingActivity : AppCompatActivity() {
             Toast.makeText(this, "System error", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
+    override fun onPause() {
+        super.onPause()
+        timer.cancel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(id.isNotEmpty()) {
+            timer = Timer("matchmaking", true)
+            timer.scheduleAtFixedRate(TimerMatchmaking(proxy), 1000, 1000)
+        }
+    }
+
+    inner class TimerMatchmaking(var proxy : MatchmakingProxy) : TimerTask(){
+        override fun run() {
+            Log.d("timer", "running")
+            if(id.isNotEmpty()) {
+                val waitResponse = proxy.waitSecondPlayer(id)
+                if(waitResponse.getString("matching").equals("start")){
+
+                    // Save the id
+                    val editor: SharedPreferences.Editor = sharedPref.edit()
+                    editor.putString(Constants.ID, id)
+                    editor.apply()
+
+
+                    // Go to multi level activity
+                    bundle.putBoolean(Constants.IS_SINGLE, false)
+                    multiIntent.putExtras(bundle)
+                    startActivity(multiIntent)
+                    timer.cancel()
+                }
+            }
+        }
+
+    }
+
 }
