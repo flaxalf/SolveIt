@@ -101,14 +101,12 @@
 
     <TextView
         android:id="@+id/idTV"
-        android:layout_width="87dp"
+        android:layout_width="0dp"
         android:layout_height="28dp"
-        android:layout_marginStart="32dp"
         android:fontFamily="@font/allerta_stencil"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/hostTV"
         app:layout_constraintEnd_toEndOf="@+id/hostBtn"
-        app:layout_constraintStart_toEndOf="@+id/hostTV"
-        app:layout_constraintTop_toTopOf="@+id/hostTV" />
+        app:layout_constraintStart_toStartOf="@+id/hostBtn"
+        app:layout_constraintTop_toBottomOf="@+id/hostBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

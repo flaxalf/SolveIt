@@ -47,7 +47,7 @@ class MatchmakingActivity : AppCompatActivity() {
                 GlobalScope.launch {
                     async {
                         id = proxy.hostMatch()
-                        idTV.text = id
+                        idTV.text = "CODE: $id"
 
                     }
                 }

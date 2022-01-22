@@ -11,12 +11,15 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".ui.MatchmakingActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.LeaderboardActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.InitActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
 
             <!-- Initial activity -->
@@ -28,18 +31,23 @@
         </activity>
         <activity
             android:name=".ui.levels.WinActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.auth.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".ui.auth.SignUpActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".ui.MenuActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".ui.levels.LevelsActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
 
         <meta-data
