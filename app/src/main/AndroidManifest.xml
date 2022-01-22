@@ -19,7 +19,7 @@
             android:name=".ui.InitActivity"
             android:exported="true">
 
-            <!-- Copia e incolla questa intent-filter all'interno dell'acitivity iniziale -->
+            <!-- Initial activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

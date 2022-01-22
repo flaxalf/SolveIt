@@ -95,6 +95,7 @@
         android:background="@drawable/button_oval_shape"
         android:fontFamily="@font/allerta_stencil"
         android:text="Join a match"
+        app:layout_constraintEnd_toEndOf="@+id/hostBtn"
         app:layout_constraintStart_toStartOf="@+id/codeET"
         app:layout_constraintTop_toBottomOf="@+id/codeET" />
 

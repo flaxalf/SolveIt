@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/drawable/background_bottom_toolbar.xml" value="0.1" />
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/drawable/button_oval_shape.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/drawable/button_oval_shape_green.xml" value="0.3828125" />
+        <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/drawable/button_oval_shape_red.xml" value="0.3828125" />
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/drawable/gradient_1.xml" value="0.2953703703703704" />
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/drawable/gradient_2.xml" value="0.2953703703703704" />
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/drawable/gradient_3.xml" value="0.2953703703703704" />
@@ -33,6 +35,7 @@
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/layout/fragment_multi_level_two.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/layout/fragment_single_level_five.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/layout/fragment_single_level_four.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/layout/fragment_single_level_one.xml" value="0.36141304347826086" />
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/layout/fragment_single_level_three.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/layout/item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Flavio/AndroidStudioProjects/SolveIt/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2833333333333333" />

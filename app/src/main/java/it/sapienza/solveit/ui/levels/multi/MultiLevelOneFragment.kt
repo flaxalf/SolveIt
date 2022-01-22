@@ -84,7 +84,7 @@ class MultiLevelOneFragment : Fragment() {
             chosenButton.setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     // Pressed
-                    chosenButton.setBackgroundColor(Color.GREEN)
+                    chosenButton.background = activity?.getDrawable(R.drawable.button_oval_shape_green)
                     GlobalScope.launch {
                         async {
                             proxy.sendMyChoice(true)
@@ -92,7 +92,7 @@ class MultiLevelOneFragment : Fragment() {
                     }
                 } else if (event.action == MotionEvent.ACTION_UP) {
                     // Released
-                    chosenButton.setBackgroundColor(Color.RED)
+                    chosenButton.background = activity?.getDrawable(R.drawable.button_oval_shape_red)
                     GlobalScope.launch {
                         async {
                             proxy.sendMyChoice(false)

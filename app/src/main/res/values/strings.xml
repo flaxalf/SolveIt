@@ -25,4 +25,5 @@
     <string name="hint_single_level_three">A light stick!</string>
     <string name="text_level_three">Level 3</string>
     <string name="hint_single_level_two">It\'s time to sleep</string>
+    <string name="multi_level_two_button_guess">guess</string>
 </resources>
